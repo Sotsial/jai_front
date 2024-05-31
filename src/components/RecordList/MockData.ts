@@ -1,0 +1,42 @@
+export const dataCars = [
+  {
+    model: "Toyota Camry",
+    fuel: "Газ",
+    year: 2018,
+    engine_volume: "2.5L",
+    price_usd: 25000,
+    price_kzt: 10375000,
+  },
+  {
+    model: "BMW X5",
+    fuel: "Дизель",
+    year: 2020,
+    engine_volume: "3.0L",
+    price_usd: 60000,
+    price_kzt: 24900000,
+  },
+  {
+    model: "Honda Civic",
+    fuel: "Газ",
+    year: 2019,
+    engine_volume: "1.8L",
+    price_usd: 20000,
+    price_kzt: 8300000,
+  },
+  {
+    model: "Ford Mustang",
+    fuel: "Газ",
+    year: 2021,
+    engine_volume: "5.0L",
+    price_usd: 45000,
+    price_kzt: 18675000,
+  },
+  {
+    model: "Tesla Model S",
+    fuel: "Электро",
+    year: 2022,
+    engine_volume: null,
+    price_usd: 80000,
+    price_kzt: 33100000,
+  },
+];

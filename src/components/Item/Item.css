@@ -1,0 +1,9 @@
+.item_right {
+  .ant-image {
+    width: 100%;
+  }
+
+  ul {
+    padding-left: 18px;
+  }
+}

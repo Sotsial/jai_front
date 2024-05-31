@@ -1,0 +1,10 @@
+.ant-layout-header {
+  padding-top: 12px;
+  background-color: transparent;
+  padding-inline: 0;
+
+  .logo {
+    max-height: 64px;
+    cursor: pointer;
+  }
+}

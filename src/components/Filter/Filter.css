@@ -1,0 +1,22 @@
+.filter {
+  border-radius: 8px;
+  border: 2px solid #f3f3f3;
+
+  .filter_container {
+    padding: 12px;
+  }
+
+  .filter_container_title {
+    margin: 0 0 12px 0;
+  }
+
+  .filter_button {
+    background-color: #f3f3f3;
+    padding: 12px;
+  }
+
+  .search {
+    border-radius: 8px 8px 0 0;
+    background-color: #f3f3f3;
+  }
+}

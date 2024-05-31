@@ -1,0 +1,18 @@
+#root {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding-inline: 24px;
+}
+
+.ant-btn-primary:focus {
+  outline: none !important;
+}
+
+.ant-breadcrumb-link {
+  color: #1677ff !important;
+}
+
+.ant-form-item {
+  margin-bottom: 12px;
+}

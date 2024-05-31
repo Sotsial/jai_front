@@ -1,0 +1,19 @@
+.advertising {
+  width: 100%;
+  background-color: #1c1819;
+  color: #fff;
+  border-radius: 8px;
+  color: #fff;
+  cursor: pointer;
+
+  position: relative;
+  overflow: hidden;
+
+  .car_image {
+    height: 120px;
+  }
+
+  .advertising_text {
+    color: #fff;
+  }
+}

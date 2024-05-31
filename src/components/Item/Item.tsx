@@ -1,0 +1,207 @@
+import {
+  Col,
+  DescriptionsProps,
+  Divider,
+  Image,
+  Row,
+  Space,
+  Typography,
+} from "antd";
+import "./Item.css";
+import { useState } from "react";
+import Order from "../Order/Order";
+
+const items: DescriptionsProps["items"] = [
+  {
+    key: "1",
+    label: "Год выпуска",
+    children: "2011",
+  },
+  {
+    key: "2",
+    label: "Пробег",
+    children: "5 124 км",
+  },
+  {
+    key: "3",
+    label: "Кузов",
+    children: "Внедорожник",
+  },
+  {
+    key: "4",
+    label: "Объем двигателя, л",
+    children: "4.7",
+  },
+  {
+    key: "5",
+    label: "Цвет кузова",
+    children: "Серый",
+  },
+];
+
+const images = [
+  "https://i.gaw.to/vehicles/photos/40/36/403605-2024-toyota-camry.jpg?640x400",
+  "https://imgd.aeplcdn.com/664x374/n/cw/ec/122561/toyota-camry-right-front-three-quarter6.jpeg?isig=0&wm=1&q=80",
+  "https://www.motortrend.com/uploads/sites/5/2020/07/2021-Toyota-Camry.jpg?w=768&width=768&q=75&format=webp",
+];
+
+const Item = () => {
+  const [image, setImage] = useState(
+    "https://i.gaw.to/vehicles/photos/40/36/403605-2024-toyota-camry.jpg?640x400"
+  );
+  return (
+    <Row gutter={[24, 24]}>
+      <Col span={8}>
+        <Typography.Title level={3} style={{ marginTop: 0 }}>
+          18 500 000 ₸
+        </Typography.Title>
+        <Row gutter={[12, 12]} align={"middle"}>
+          <Col span={12}>
+            <Typography.Text type="secondary">В долларах</Typography.Text>
+          </Col>
+          <Col span={10} style={{ textAlign: "right" }}>
+            <Typography.Text
+              style={{
+                fontSize: "1rem",
+                fontWeight: 600,
+                padding: 6,
+                paddingInline: 8,
+                backgroundColor: "#ffd313",
+                borderRadius: 6,
+              }}
+            >
+              $41 111
+            </Typography.Text>
+          </Col>
+          <Col span={12}>
+            <Typography.Text type="secondary">Доставка</Typography.Text>
+          </Col>
+          <Col span={10} style={{ textAlign: "right" }}>
+            <Typography.Text style={{ fontSize: "1.2rem", fontWeight: 600 }}>
+              До Алматы
+            </Typography.Text>
+          </Col>
+        </Row>
+        <Divider />
+        <Row gutter={[12, 12]}>
+          {items.map((el) => (
+            <>
+              <Col span={12}>
+                <Typography.Text type="secondary">{el.label}</Typography.Text>
+              </Col>
+              <Col span={12}>
+                <Typography.Text>{el.children}</Typography.Text>
+              </Col>
+            </>
+          ))}
+        </Row>
+        <Order />
+      </Col>
+      <Col span={16} className="item_right">
+        <Space direction="vertical" style={{ width: "100%" }}>
+          <Image style={{ width: "100%" }} src={image} />
+          <Row gutter={12}>
+            {images.map((el) => (
+              <Col span={4}>
+                <Image
+                  onClick={() => setImage(el)}
+                  preview={false}
+                  style={{
+                    height: "80px",
+                    aspectRatio: "1/3",
+                    cursor: "pointer",
+                  }}
+                  src={el}
+                />
+              </Col>
+            ))}
+          </Row>
+
+          <Typography.Title level={4}>
+            Технические характеристики
+          </Typography.Title>
+          <Row>
+            <Col span={12}>
+              <Typography.Title style={{ marginTop: 6 }} level={5}>
+                Экстерьер / интерьер
+              </Typography.Title>
+              <ul
+                style={{
+                  listStyleType: "disc",
+                  fontSize: "1rem",
+                }}
+              >
+                <li>Люк на крыше</li>
+                <li>Фары (Led)</li>
+                <li>Алюминиевые диски</li>
+                <li>Подогрев руля</li>
+                <li>Мультруль</li>
+                <li>Центразамок</li>
+                <li>Подрулевые переключатели</li>
+              </ul>
+            </Col>
+            <Col span={12}>
+              <Typography.Title style={{ marginTop: 6 }} level={5}>
+                Безопасность
+              </Typography.Title>
+              <ul
+                style={{
+                  listStyleType: "disc",
+                  fontSize: "1rem",
+                }}
+              >
+                <li>Система контроля давления в шинах (TPMS)</li>
+                <li>Антиблокировочная система (ABS)</li>
+                <li>Система стабилизации (ESP)</li>
+                <li>Подушки безопасности</li>
+                <li>Задний видеокамера</li>
+                <li>Система помощи при парковке (Park Assist)</li>
+                <li>Система контроля слепых зон (BLIS)</li>
+              </ul>
+            </Col>
+            <Col span={12}>
+              <Typography.Title style={{ marginTop: 6 }} level={5}>
+                Удобство / Мультимедиа
+              </Typography.Title>
+              <ul
+                style={{
+                  listStyleType: "disc",
+                  fontSize: "1rem",
+                }}
+              >
+                <li>Система навигации</li>
+                <li>Система голосового управления</li>
+                <li>Bluetooth соединение</li>
+                <li>USB порты</li>
+                <li>Система автоматического климат-контроля</li>
+                <li>Электропривод сидений</li>
+                <li>Аудиосистема высокого качества</li>
+              </ul>
+            </Col>
+            <Col span={12}>
+              <Typography.Title style={{ marginTop: 6 }} level={5}>
+                Сиденья
+              </Typography.Title>
+              <ul
+                style={{
+                  listStyleType: "disc",
+                  fontSize: "1rem",
+                }}
+              >
+                <li>Электрорегулировка сидений</li>
+                <li>Подогрев передних сидений</li>
+                <li>Вентиляция передних сидений</li>
+                <li>Массажные функции в передних сиденьях</li>
+                <li>Память настройки положения сидений</li>
+                <li>Система поддержки поясницы</li>
+                <li>Регулируемый подголовник</li>
+              </ul>
+            </Col>
+          </Row>
+        </Space>
+      </Col>
+    </Row>
+  );
+};
+
+export default Item;
