@@ -1,7 +1,5 @@
 import { InstagramOutlined } from "@ant-design/icons";
 import { Button, Card, Flex, Space, Typography } from "antd";
-import React from "react";
-
 const Order = () => {
   return (
     <Card
