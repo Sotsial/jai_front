@@ -26,6 +26,7 @@ const ItemPage = () => {
             className="lang_select"
             defaultValue="ru"
             variant="borderless"
+            popupMatchSelectWidth
             options={[
               { value: "ru", label: "RU" },
               { value: "kz", label: "KAZ" },
