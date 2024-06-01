@@ -1,16 +1,26 @@
-import { Space, Typography } from "antd";
+import { Flex, Space, Typography } from "antd";
 import { isMobile } from "react-device-detect";
 import carImage from "src/assets/car.png";
 
 const Notion = () => {
   if (isMobile)
     return (
-      <div style={{ padding: 12, backgroundColor: "#1c1819" }}>
-        <Typography.Text style={{ color: "#fff" }}>
+      <Flex
+        style={{
+          padding: 12,
+          backgroundColor: "#1c1819",
+        }}
+        align="center"
+        gap={32}
+      >
+        <div style={{ color: "#fff" }}>LOGO</div>
+        <Typography.Text
+          style={{ color: "#fff", fontSize: "0.8rem", textWrap: "balance" }}
+        >
           Посчитанные автомобили из Кореи, ОАЭ, Китая "под ключ" с учетом всех
           расходов
         </Typography.Text>
-      </div>
+      </Flex>
     );
 
   return (

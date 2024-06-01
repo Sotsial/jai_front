@@ -3,15 +3,23 @@ import { Header as AntdHeader } from "antd/es/layout/layout";
 import logo from "src/assets/logo.png";
 import "./Header.css";
 import { useNavigate } from "react-router-dom";
+import useStore, { CountryType } from "src/store/store";
 
 const Header = () => {
   const navigate = useNavigate();
+
+  const { country, setCountry } = useStore();
+  console.log(country);
   return (
     <AntdHeader>
       <Flex justify="space-between">
         <Space size={24} align="center">
           <img src={logo} onClick={() => navigate("/")} className="logo" />
-          <Tabs defaultActiveKey="1" items={items} defaultValue={"1"} />
+          <Tabs
+            activeKey={country}
+            onChange={(country) => setCountry(country as CountryType)}
+            items={items}
+          />
         </Space>
       </Flex>
     </AntdHeader>
@@ -20,15 +28,15 @@ const Header = () => {
 
 const items: TabsProps["items"] = [
   {
-    key: "1",
+    key: "UAE",
     label: "Каталог ОАЭ",
   },
   {
-    key: "2",
+    key: "Korea",
     label: "Каталог Кореи",
   },
   {
-    key: "3",
+    key: "China",
     label: "Каталог Китай",
   },
 ];

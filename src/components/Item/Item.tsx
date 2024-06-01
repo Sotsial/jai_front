@@ -10,7 +10,7 @@ import {
   Typography,
 } from "antd";
 import "./Item.css";
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Order from "../Order/Order";
 import { isMobile } from "react-device-detect";
 
@@ -59,6 +59,7 @@ const Item = () => {
         <Carousel arrows infinite={false}>
           {images.map((el) => (
             <Image
+              key={el}
               onClick={() => setImage(el)}
               style={{
                 height: "80px",
@@ -112,14 +113,14 @@ const Item = () => {
         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
         <Row gutter={[12, 12]} style={{ maxWidth: "100%", paddingInline: 8 }}>
           {items.map((el) => (
-            <>
+            <Fragment key={el.label as string}>
               <Col span={14}>
                 <Typography.Text>{el.label}</Typography.Text>
               </Col>
               <Col span={10}>
                 <Typography.Text>{el.children}</Typography.Text>
               </Col>
-            </>
+            </Fragment>
           ))}
         </Row>
         <Typography.Title level={4} style={{ paddingInline: 18 }}>
@@ -274,7 +275,7 @@ const Item = () => {
           <Image style={{ width: "100%" }} src={image} />
           <Row gutter={12}>
             {images.map((el) => (
-              <Col span={4}>
+              <Col key={el} span={4}>
                 <Image
                   onClick={() => setImage(el)}
                   preview={false}

@@ -6,26 +6,30 @@ import Footer from "../Footer/Footer";
 import { isMobile } from "react-device-detect";
 import { TabBar } from "antd-mobile";
 import { useEffect, useRef } from "react";
+import useStore, { CountryType } from "src/store/store";
+
+const tabs = [
+  {
+    key: "UAE",
+    title: "Каталог ОАЭ",
+    icon: "🇦🇪",
+  },
+  {
+    key: "Korea",
+    title: "Каталог Кореи",
+    icon: "🇰🇷",
+  },
+  {
+    key: "China",
+    title: "Каталог Китая",
+    icon: "🇨🇳",
+  },
+];
 
 const Layout = () => {
-  const tabs = [
-    {
-      key: "message",
-      title: "Каталог ОАЭ",
-      icon: "🇦🇪",
-    },
-    {
-      key: "todo",
-      title: "Каталог Кореи",
-      icon: "🇰🇷",
-    },
-    {
-      key: "home",
-      title: "Каталог Китая",
-      icon: "🇨🇳",
-    },
-  ];
   const myElementRef = useRef<HTMLDivElement>(null);
+
+  const { country, setCountry } = useStore();
 
   const { pathname } = useLocation();
   useEffect(() => {
@@ -46,7 +50,10 @@ const Layout = () => {
           </Row>
         </div>
         <div className={"bottom"}>
-          <TabBar>
+          <TabBar
+            activeKey={country}
+            onChange={(country) => setCountry(country as CountryType)}
+          >
             {tabs.map((item) => (
               <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
             ))}

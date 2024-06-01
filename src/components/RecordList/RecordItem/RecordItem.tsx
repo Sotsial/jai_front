@@ -3,16 +3,20 @@ import "./RecordItem.css";
 import { Card, Col, Flex, Row, Space, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
 import { isMobile } from "react-device-detect";
+import useStore from "src/store/store";
+import { selectCountryName } from "src/utiles";
 
 const { Link, Text, Title } = Typography;
 
-interface ItemVm {
+export interface ItemVm {
   model: string;
   fuel: string;
   year: number;
   engine_volume: string | null;
   price_usd: number;
   price_kzt: number;
+  color: string;
+  mileage_km: number;
 }
 
 const numberWithSeparator = (number: number) => {
@@ -27,30 +31,52 @@ const RecordItem = ({
   price_usd,
   price_kzt,
   city,
+  color,
+  mileage_km,
 }: ItemVm & { city: string }) => {
   const navigate = useNavigate();
-
+  const { country } = useStore();
   if (isMobile)
     return (
       <Card styles={{ body: { padding: 8, paddingInline: 10 } }}>
         <Row
           className="record_item"
           onClick={() => navigate("item/123")}
-          gutter={[12, 6]}
+          gutter={[12, 12]}
         >
           <Col span={12}>
             <Flex vertical gap={3} style={{ margin: 0 }}>
               <Link style={{ fontSize: "1.1rem" }}>{model}</Link>
+              <Space align="center">
+                <Title
+                  level={5}
+                  style={{ margin: 0, lineHeight: 1, paddingTop: 4 }}
+                >
+                  {numberWithSeparator(price_kzt)} ₸
+                </Title>
 
-              <Title level={5} style={{ margin: 0 }}>
-                {numberWithSeparator(price_kzt)} ₸
-              </Title>
+                <Typography.Text
+                  style={{
+                    fontSize: "0.9rem",
+                    fontWeight: 600,
+                    padding: 6,
+                    paddingInline: 8,
+                    backgroundColor: "#ffd313",
+                    borderRadius: 6,
+                  }}
+                >
+                  ${numberWithSeparator(price_usd)}
+                </Typography.Text>
+              </Space>
             </Flex>
           </Col>
           <Col span={12} style={{ textAlign: "right", lineHeight: "1" }}>
-            <Text type="secondary" style={{ fontSize: "0.5rem" }}>
+            <Text
+              type="secondary"
+              style={{ fontSize: "0.7rem", textWrap: "balance" }}
+            >
               Цена указана с учетом всех расходов с доставкой до{" "}
-              <strong> {city}</strong>
+              <strong>{city}</strong>
             </Text>
           </Col>
           <Col span={12}>
@@ -60,10 +86,10 @@ const RecordItem = ({
             <Flex vertical justify="space-between" style={{ height: "100%" }}>
               <Space direction="vertical">
                 <Text style={{ fontSize: "0.8rem" }}>
-                  {`${year} / ${engine_volume} / Пробег: 123 / ${fuel} / Автомат / Белый`}
+                  {`${year} / ${engine_volume} / Пробег: ${mileage_km} / ${fuel} / Автомат / ${color}`}
                 </Text>
               </Space>
-              <Text type="secondary">ОАЭ</Text>
+              <Text type="secondary">{selectCountryName(country)}</Text>
             </Flex>
           </Col>
         </Row>
@@ -88,7 +114,7 @@ const RecordItem = ({
                 {`${year} / ${engine_volume} / Пробег: 123 / ${fuel} / Автомат / Белый`}
               </Text>
             </Space>
-            <Text type="secondary">ОАЭ</Text>
+            <Text type="secondary">{selectCountryName(country)}</Text>
           </Flex>
         </Col>
         <Col span={8}>

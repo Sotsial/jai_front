@@ -5,9 +5,11 @@ import Advertising from "../Advertising/Advertising";
 import { Fragment, useState } from "react";
 import CitySelect from "./CitySelect/CitySelect";
 import { isMobile } from "react-device-detect";
+import useStore from "src/store/store";
 
 const RecordList = () => {
   const [city, setCity] = useState("Алматы");
+  const { country } = useStore();
   return (
     <Space direction="vertical" style={{ width: "100%" }}>
       <CitySelect city={city} setCity={setCity} />
@@ -20,7 +22,7 @@ const RecordList = () => {
         </Typography.Title>
       )}
       <Space direction="vertical" size={isMobile ? 8 : 24}>
-        {dataCars.map((el, index) => (
+        {dataCars[country].map((el, index) => (
           <Fragment key={index}>
             <RecordItem {...el} city={city} />
             {(index + 1) % 3 === 0 && index !== 0 && <Advertising />}
