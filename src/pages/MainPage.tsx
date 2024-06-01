@@ -2,6 +2,8 @@ import { Col } from "antd";
 import { isMobile } from "react-device-detect";
 import Advertising from "src/components/Advertising/Advertising";
 import Filter from "src/components/Filter/Filter";
+import FilterMobile from "src/components/Filter/FilterMobile/FilterMobile";
+import Notion from "src/components/Notion/Notion";
 import RecordList from "src/components/RecordList/RecordList";
 
 const MainPage = () => {
@@ -9,13 +11,13 @@ const MainPage = () => {
     return (
       <>
         <Col span={24}>
-          <Filter />
+          <Notion />
+        </Col>
+        <Col span={24}>
+          <FilterMobile />
         </Col>
         <Col span={24}>
           <RecordList />
-        </Col>
-        <Col span={24}>
-          <Advertising type={2} />
         </Col>
       </>
     );
@@ -32,7 +34,7 @@ const MainPage = () => {
         <RecordList />
       </Col>
       <Col span={8}>
-        <Advertising type={2} />
+        <Notion />
       </Col>
     </>
   );

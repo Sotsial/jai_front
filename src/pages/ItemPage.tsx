@@ -1,8 +1,46 @@
-import { Breadcrumb, Col, Divider, Typography } from "antd";
+import { Breadcrumb, Col, Divider, Flex, Select, Typography } from "antd";
+import { isMobile } from "react-device-detect";
+import { useNavigate } from "react-router-dom";
 import Advertising from "src/components/Advertising/Advertising";
 import Item from "src/components/Item/Item";
+import Order from "src/components/Order/Order";
 
 const ItemPage = () => {
+  const navigate = useNavigate();
+  if (isMobile)
+    return (
+      <>
+        <Flex
+          justify="space-between"
+          style={{
+            padding: 12,
+            backgroundColor: "#1c1819",
+            width: "100%",
+            color: "#fff",
+            fontSize: "1.2rem",
+          }}
+          align="center"
+        >
+          <strong onClick={() => navigate("/")}>Jai logo</strong>
+          <Select
+            className="lang_select"
+            defaultValue="ru"
+            variant="borderless"
+            options={[
+              { value: "ru", label: "RU" },
+              { value: "kz", label: "KAZ" },
+            ]}
+          />
+        </Flex>
+        <Col span={24}>
+          <Item />
+        </Col>
+        <Col span={24} style={{ paddingInline: 4 }}>
+          <Order />
+        </Col>
+      </>
+    );
+
   return (
     <>
       <Col span={24}>

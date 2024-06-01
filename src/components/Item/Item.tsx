@@ -1,7 +1,9 @@
 import {
+  Carousel,
   Col,
   DescriptionsProps,
   Divider,
+  Flex,
   Image,
   Row,
   Space,
@@ -10,6 +12,7 @@ import {
 import "./Item.css";
 import { useState } from "react";
 import Order from "../Order/Order";
+import { isMobile } from "react-device-detect";
 
 const items: DescriptionsProps["items"] = [
   {
@@ -49,6 +52,175 @@ const Item = () => {
   const [image, setImage] = useState(
     "https://i.gaw.to/vehicles/photos/40/36/403605-2024-toyota-camry.jpg?640x400"
   );
+
+  if (isMobile)
+    return (
+      <Flex vertical gap={8}>
+        <Carousel arrows infinite={false}>
+          {images.map((el) => (
+            <Image
+              onClick={() => setImage(el)}
+              style={{
+                height: "80px",
+                aspectRatio: "1/3",
+                cursor: "pointer",
+              }}
+              src={el}
+            />
+          ))}
+        </Carousel>
+        <Space direction="vertical" style={{ paddingInline: 8 }}>
+          <Typography.Title level={3} style={{ margin: 0 }}>
+            Toyota Camry
+          </Typography.Title>
+          <Typography.Title level={4} style={{ marginTop: 0, marginBottom: 0 }}>
+            18 500 000 Т
+          </Typography.Title>
+        </Space>
+        <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+        <Row
+          gutter={[12, 12]}
+          align={"middle"}
+          style={{ maxWidth: "100%", paddingInline: 8 }}
+        >
+          <Col span={12}>
+            <Typography.Text>В долларах</Typography.Text>
+          </Col>
+          <Col span={12} style={{ textAlign: "right" }}>
+            <Typography.Text
+              style={{
+                fontSize: "1rem",
+                fontWeight: 600,
+                padding: 6,
+                paddingInline: 8,
+                backgroundColor: "#ffd313",
+                borderRadius: 6,
+              }}
+            >
+              $41 111
+            </Typography.Text>
+          </Col>
+          <Col span={12}>
+            <Typography.Text>Доставка</Typography.Text>
+          </Col>
+          <Col span={12} style={{ textAlign: "right" }}>
+            <Typography.Text style={{ fontSize: "1.1rem", fontWeight: 600 }}>
+              До Алматы
+            </Typography.Text>
+          </Col>
+        </Row>
+        <Divider style={{ marginTop: 0, marginBottom: 0 }} />
+        <Row gutter={[12, 12]} style={{ maxWidth: "100%", paddingInline: 8 }}>
+          {items.map((el) => (
+            <>
+              <Col span={14}>
+                <Typography.Text>{el.label}</Typography.Text>
+              </Col>
+              <Col span={10}>
+                <Typography.Text>{el.children}</Typography.Text>
+              </Col>
+            </>
+          ))}
+        </Row>
+        <Typography.Title level={4} style={{ paddingInline: 18 }}>
+          Технические характеристики
+        </Typography.Title>
+        <Row style={{ paddingInline: 12 }}>
+          <Col span={24}>
+            <Typography.Title
+              style={{ marginTop: 4, paddingInline: 6 }}
+              level={5}
+            >
+              Экстерьер / интерьер
+            </Typography.Title>
+            <ul
+              style={{
+                listStyleType: "disc",
+                fontSize: "1rem",
+                paddingLeft: 24,
+              }}
+            >
+              <li>Люк на крыше</li>
+              <li>Фары (Led)</li>
+              <li>Алюминиевые диски</li>
+              <li>Подогрев руля</li>
+              <li>Мультруль</li>
+              <li>Центразамок</li>
+              <li>Подрулевые переключатели</li>
+            </ul>
+          </Col>
+          <Col span={24}>
+            <Typography.Title
+              style={{ marginTop: 4, paddingInline: 6 }}
+              level={5}
+            >
+              Безопасность
+            </Typography.Title>
+            <ul
+              style={{
+                listStyleType: "disc",
+                fontSize: "1rem",
+                paddingLeft: 24,
+              }}
+            >
+              <li>Система контроля давления в шинах (TPMS)</li>
+              <li>Антиблокировочная система (ABS)</li>
+              <li>Система стабилизации (ESP)</li>
+              <li>Подушки безопасности</li>
+              <li>Задний видеокамера</li>
+              <li>Система помощи при парковке (Park Assist)</li>
+              <li>Система контроля слепых зон (BLIS)</li>
+            </ul>
+          </Col>
+          <Col span={24} style={{ paddingInline: 6 }}>
+            <Typography.Title
+              style={{ marginTop: 4, paddingInline: 6 }}
+              level={5}
+            >
+              Удобство / Мультимедиа
+            </Typography.Title>
+            <ul
+              style={{
+                listStyleType: "disc",
+                fontSize: "1rem",
+                paddingLeft: 24,
+              }}
+            >
+              <li>Система навигации</li>
+              <li>Система голосового управления</li>
+              <li>Bluetooth соединение</li>
+              <li>USB порты</li>
+              <li>Система автоматического климат-контроля</li>
+              <li>Электропривод сидений</li>
+              <li>Аудиосистема высокого качества</li>
+            </ul>
+          </Col>
+          <Col span={24}>
+            <Typography.Title
+              style={{ marginTop: 4, paddingInline: 6 }}
+              level={5}
+            >
+              Сиденья
+            </Typography.Title>
+            <ul
+              style={{
+                listStyleType: "disc",
+                fontSize: "1rem",
+                paddingLeft: 24,
+              }}
+            >
+              <li>Электрорегулировка сидений</li>
+              <li>Подогрев передних сидений</li>
+              <li>Вентиляция передних сидений</li>
+              <li>Массажные функции в передних сиденьях</li>
+              <li>Память настройки положения сидений</li>
+              <li>Система поддержки поясницы</li>
+              <li>Регулируемый подголовник</li>
+            </ul>
+          </Col>
+        </Row>
+      </Flex>
+    );
   return (
     <Row gutter={[24, 24]}>
       <Col span={8}>

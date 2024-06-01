@@ -2,7 +2,15 @@
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
+  height: 100dvh;
   padding-inline: 24px;
+}
+
+@media (max-width: 768px) {
+  #root {
+    padding-inline: 0px;
+    background-color: #f2f2f3;
+  }
 }
 
 .ant-btn-primary:focus {
@@ -15,4 +23,11 @@
 
 .ant-form-item {
   margin-bottom: 12px;
+}
+
+.lang_select {
+  .ant-select-selector,
+  .ant-select-arrow {
+    color: rgb(255, 255, 255) !important;
+  }
 }

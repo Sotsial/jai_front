@@ -1,11 +1,18 @@
 .record_item {
   max-height: 200px;
-  width: 100%;
+  width: 100% !important;
   cursor: pointer;
 
   img {
     border-radius: 8px;
     width: 100%;
     min-height: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  .record_item {
+    padding: 4px;
+    max-height: max-content;
   }
 }

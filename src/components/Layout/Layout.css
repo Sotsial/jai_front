@@ -2,3 +2,19 @@
   min-height: calc(100vh - 76px);
   padding-bottom: 24px;
 }
+
+.content_mobile {
+  height: calc(100dvh - 64px);
+  overflow: auto;
+}
+
+.bottom {
+  background-color: #fff;
+  height: 64px;
+  border-top: 1px solid #f2f2f3;
+}
+
+.adm-tab-bar,
+.adm-tab-bar-wrap {
+  height: 100%;
+}

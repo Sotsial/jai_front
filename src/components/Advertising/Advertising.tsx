@@ -1,41 +1,24 @@
-import { Space, Typography } from "antd";
+import { Card, Space, Typography } from "antd";
 import "./Advertising.css";
 import carImage from "src/assets/car.png";
+import { isMobile } from "react-device-detect";
 
-const Advertising = ({ type = 1 }: { type?: number }) => {
-  if (type === 1)
+const Advertising = () => {
+  if (isMobile)
     return (
-      <div className="advertising">
-        <Space size={24}>
-          <img src={carImage} className="car_image" />
-          <Typography.Title className="advertising_text">
-            Рекламный баннер
-          </Typography.Title>
-        </Space>
-      </div>
+      <Card
+        style={{ minHeight: "200px", textAlign: "center", borderRadius: 0 }}
+      >
+        <Typography.Title level={2}>Рекламный баннер</Typography.Title>
+      </Card>
     );
-
   return (
     <div className="advertising">
-      <Space size={24} direction="vertical" style={{ paddingTop: 36 }}>
+      <Space size={24}>
         <img src={carImage} className="car_image" />
-        <div style={{ paddingInline: 24 }}>
-          <Typography.Title level={2} className="advertising_text">
-            Посчитанные автомобили с учетом всех расходов
-          </Typography.Title>
-          <Typography.Paragraph>
-            <ul
-              style={{
-                color: "#fff",
-                listStyleType: "disc",
-                fontSize: "1.3rem",
-              }}
-            >
-              <li>Надежный импорт</li>
-              <li>Быстрая доставка</li>
-            </ul>
-          </Typography.Paragraph>
-        </div>
+        <Typography.Title className="advertising_text">
+          Рекламный баннер
+        </Typography.Title>
       </Space>
     </div>
   );
