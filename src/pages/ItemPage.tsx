@@ -36,7 +36,7 @@ const ItemPage = () => {
         <Col span={24}>
           <Item />
         </Col>
-        <Col span={24} style={{ paddingInline: 4 }}>
+        <Col span={24} style={{ paddingInline: 18 }}>
           <Order />
         </Col>
       </>

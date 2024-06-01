@@ -13,7 +13,7 @@ const Notion = () => {
         align="center"
         gap={32}
       >
-        <div style={{ color: "#fff" }}>LOGO</div>
+        <div style={{ color: "#fff", fontWeight: 600 }}>LOGO</div>
         <Typography.Text
           style={{ color: "#fff", fontSize: "0.8rem", textWrap: "balance" }}
         >

@@ -70,7 +70,7 @@ const Item = () => {
             />
           ))}
         </Carousel>
-        <Space direction="vertical" style={{ paddingInline: 8 }}>
+        <Space direction="vertical" style={{ paddingInline: 12 }}>
           <Typography.Title level={3} style={{ margin: 0 }}>
             Toyota Camry
           </Typography.Title>
@@ -82,7 +82,7 @@ const Item = () => {
         <Row
           gutter={[12, 12]}
           align={"middle"}
-          style={{ maxWidth: "100%", paddingInline: 8 }}
+          style={{ maxWidth: "100%", paddingInline: 12 }}
         >
           <Col span={12}>
             <Typography.Text>В долларах</Typography.Text>
@@ -111,7 +111,7 @@ const Item = () => {
           </Col>
         </Row>
         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
-        <Row gutter={[12, 12]} style={{ maxWidth: "100%", paddingInline: 8 }}>
+        <Row gutter={[12, 12]} style={{ maxWidth: "100%", paddingInline: 12 }}>
           {items.map((el) => (
             <Fragment key={el.label as string}>
               <Col span={14}>
@@ -173,7 +173,7 @@ const Item = () => {
               <li>Система контроля слепых зон (BLIS)</li>
             </ul>
           </Col>
-          <Col span={24} style={{ paddingInline: 6 }}>
+          <Col span={24}>
             <Typography.Title
               style={{ marginTop: 4, paddingInline: 6 }}
               level={5}

@@ -55,16 +55,7 @@ const RecordItem = ({
                   {numberWithSeparator(price_kzt)} ₸
                 </Title>
 
-                <Typography.Text
-                  style={{
-                    fontSize: "0.9rem",
-                    fontWeight: 600,
-                    padding: 6,
-                    paddingInline: 8,
-                    backgroundColor: "#ffd313",
-                    borderRadius: 6,
-                  }}
-                >
+                <Typography.Text className="record_item_price_dollar">
                   ${numberWithSeparator(price_usd)}
                 </Typography.Text>
               </Space>
@@ -120,7 +111,7 @@ const RecordItem = ({
         <Col span={8}>
           <Flex vertical gap={6} style={{ textAlign: "right", margin: 0 }}>
             <Title level={4} style={{ margin: 0 }}>
-              {numberWithSeparator(price_kzt)} ₸ |
+              {numberWithSeparator(price_kzt)} ₸ |{" "}
               {numberWithSeparator(price_usd)} $
             </Title>
             <Text type="secondary" style={{ fontSize: "0.8rem" }}>

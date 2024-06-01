@@ -8,11 +8,28 @@
     width: 100%;
     min-height: 100%;
   }
+
+  .record_item_price_dollar {
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 6px;
+    padding-inline: 8px;
+    background-color: #ffd313;
+    border-radius: 6px;
+  }
 }
 
 @media (max-width: 768px) {
   .record_item {
     padding: 4px;
     max-height: max-content;
+  }
+}
+
+@media (max-width: 360px) {
+  .record_item {
+    .record_item_price_dollar {
+      font-size: 0.7rem;
+    }
   }
 }
