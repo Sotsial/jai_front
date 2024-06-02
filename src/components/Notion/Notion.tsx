@@ -24,8 +24,12 @@ const Notion = () => {
     );
 
   return (
-    <div className="advertising">
-      {/* <Space size={24} direction="vertical" style={{ paddingTop: 36 }}>
+    <Adsense client="ca-pub-6168437561514335" slot="6338645549" format="auto" />
+  );
+};
+
+{
+  /* <Space size={24} direction="vertical" style={{ paddingTop: 36 }}>
         <img src={carImage} className="car_image" />
         <div style={{ paddingInline: 24 }}>
           <Typography.Title level={2} className="advertising_text">
@@ -44,15 +48,7 @@ const Notion = () => {
             </ul>
           </Typography.Paragraph>
         </div>
-      </Space> */}
-
-      <Adsense
-        client="ca-pub-6168437561514335"
-        slot="6338645549"
-        format="auto"
-      />
-    </div>
-  );
-};
+      </Space> */
+}
 
 export default Notion;
