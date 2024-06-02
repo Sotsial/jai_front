@@ -1,6 +1,6 @@
-import { Flex, Space, Typography } from "antd";
+import { Adsense } from "@ctrl/react-adsense";
+import { Flex, Typography } from "antd";
 import { isMobile } from "react-device-detect";
-import carImage from "src/assets/car.png";
 
 const Notion = () => {
   if (isMobile)
@@ -25,7 +25,7 @@ const Notion = () => {
 
   return (
     <div className="advertising">
-      <Space size={24} direction="vertical" style={{ paddingTop: 36 }}>
+      {/* <Space size={24} direction="vertical" style={{ paddingTop: 36 }}>
         <img src={carImage} className="car_image" />
         <div style={{ paddingInline: 24 }}>
           <Typography.Title level={2} className="advertising_text">
@@ -44,7 +44,13 @@ const Notion = () => {
             </ul>
           </Typography.Paragraph>
         </div>
-      </Space>
+      </Space> */}
+
+      <Adsense
+        client="ca-pub-6168437561514335"
+        slot="6338645549"
+        format="auto"
+      />
     </div>
   );
 };
