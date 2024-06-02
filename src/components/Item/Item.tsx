@@ -10,7 +10,7 @@ import {
   Typography,
 } from "antd";
 import "./Item.css";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import Order from "../Order/Order";
 import { isMobile } from "react-device-detect";
 
@@ -53,23 +53,72 @@ const Item = () => {
     "https://i.gaw.to/vehicles/photos/40/36/403605-2024-toyota-camry.jpg?640x400"
   );
 
+  const carouselRef = useRef<HTMLDivElement>(null);
+
+  const [current, setCurrent] = useState(1);
+
+  const startX = useRef(0);
+  const endX = useRef(0);
+
+  const goToPreviousSlide = (event: TouchEvent) => {
+    startX.current = event.touches[0].clientX;
+  };
+
+  const goToNextSlide = (event: TouchEvent) => {
+    endX.current = event.changedTouches[0].clientX;
+
+    const deltaX = endX.current - startX.current;
+
+    if (deltaX < 0 && current + 1 < images.length) {
+      setCurrent((prev) => prev + 1);
+    } else if (deltaX > 0 && current > 0) {
+      setCurrent((prev) => prev - 1);
+    }
+  };
+
+  useEffect(() => {
+    const slider = carouselRef.current;
+    if (!slider) return;
+
+    slider.addEventListener("touchstart", goToPreviousSlide);
+    slider.addEventListener("touchend", goToNextSlide);
+
+    return () => {
+      slider.removeEventListener("touchstart", goToPreviousSlide);
+      slider.removeEventListener("touchend", goToNextSlide);
+    };
+  }, [current]);
+
   if (isMobile)
     return (
       <Flex vertical gap={8}>
-        <Carousel arrows infinite={false}>
-          {images.map((el) => (
-            <Image
-              key={el}
-              onClick={() => setImage(el)}
-              style={{
-                height: "80px",
-                aspectRatio: "1/3",
-                cursor: "pointer",
-              }}
-              src={el}
-            />
-          ))}
-        </Carousel>
+        <Image.PreviewGroup
+          preview={{
+            movable: false,
+            forceRender: true,
+            current: current,
+            onChange: setCurrent,
+            panelRef(instance) {
+              // @ts-ignore
+              carouselRef.current = instance;
+            },
+          }}
+        >
+          <Carousel arrows infinite={false}>
+            {images.map((el, index) => (
+              <Image
+                key={el}
+                onClick={() => setCurrent(index)}
+                style={{
+                  height: "80px",
+                  aspectRatio: "1/3",
+                  cursor: "pointer",
+                }}
+                src={el}
+              />
+            ))}
+          </Carousel>
+        </Image.PreviewGroup>
         <Space direction="vertical" style={{ paddingInline: 12 }}>
           <Typography.Title level={3} style={{ margin: 0 }}>
             Toyota Camry

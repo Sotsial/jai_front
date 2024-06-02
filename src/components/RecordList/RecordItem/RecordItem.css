@@ -16,6 +16,16 @@
     padding-inline: 8px;
     background-color: #ffd313;
     border-radius: 6px;
+    text-wrap: nowrap;
+  }
+
+  .record_item_price_tenge {
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1;
+    padding-top: 4px;
+    font-weight: 600;
+    text-wrap: nowrap;
   }
 }
 
@@ -24,12 +34,43 @@
     padding: 4px;
     max-height: max-content;
   }
+
+  .record_item_description .ant-typography {
+    font-size: 0.7rem;
+    display: -webkit-box;
+  }
+
+  .record_item_model {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 412px) {
+  .record_item {
+    .record_item_description .ant-typography {
+      font-size: 0.6rem;
+    }
+  }
 }
 
 @media (max-width: 360px) {
   .record_item {
+    .record_item_model {
+      font-size: 1rem;
+    }
+
     .record_item_price_dollar {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
+      padding: 4px;
+      padding-inline: 6px;
+    }
+
+    .record_item_price_tenge {
+      font-size: 0.8rem;
+    }
+
+    .record_item_description .ant-typography {
+      font-size: 0.6rem;
     }
   }
 }

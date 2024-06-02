@@ -7,4 +7,8 @@
     max-height: 64px;
     cursor: pointer;
   }
+
+  .ant-tabs-nav-operations {
+    display: none;
+  }
 }

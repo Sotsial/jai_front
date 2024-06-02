@@ -46,29 +46,29 @@ const RecordItem = ({
         >
           <Col span={12}>
             <Flex vertical gap={3} style={{ margin: 0 }}>
-              <Link style={{ fontSize: "1.1rem" }}>{model}</Link>
+              <Link className="record_item_model">{model}</Link>
               <Space align="center">
-                <Title
-                  level={5}
-                  style={{ margin: 0, lineHeight: 1, paddingTop: 4 }}
-                >
+                <Text className="record_item_price_tenge">
                   {numberWithSeparator(price_kzt)} ₸
-                </Title>
+                </Text>
 
-                <Typography.Text className="record_item_price_dollar">
+                <Text className="record_item_price_dollar">
                   ${numberWithSeparator(price_usd)}
-                </Typography.Text>
+                </Text>
               </Space>
             </Flex>
           </Col>
-          <Col span={12} style={{ textAlign: "right", lineHeight: "1" }}>
-            <Text
-              type="secondary"
-              style={{ fontSize: "0.7rem", textWrap: "balance" }}
-            >
-              Цена указана с учетом всех расходов с доставкой до{" "}
-              <strong>{city}</strong>
-            </Text>
+          <Col
+            span={12}
+            style={{ textAlign: "right" }}
+            className="record_item_description"
+          >
+            <Space size={0} direction="vertical">
+              <Text type="secondary">
+                Цена указана с учетом всех расходов с доставкой до{" "}
+                <strong>{city}</strong>
+              </Text>
+            </Space>
           </Col>
           <Col span={12}>
             <img src={image} />

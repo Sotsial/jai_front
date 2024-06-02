@@ -1,4 +1,4 @@
-import { Col } from "antd";
+import { Affix, Col } from "antd";
 import { isMobile } from "react-device-detect";
 import Advertising from "src/components/Advertising/Advertising";
 import Filter from "src/components/Filter/Filter";
@@ -34,7 +34,9 @@ const MainPage = () => {
         <RecordList />
       </Col>
       <Col span={8}>
-        <Notion />
+        <Affix offsetTop={16}>
+          <Notion />
+        </Affix>
       </Col>
     </>
   );
