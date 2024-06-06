@@ -1,12 +1,33 @@
 import { Breadcrumb, Col, Divider, Flex, Select, Typography } from "antd";
+import axios from "axios";
 import { isMobile } from "react-device-detect";
 import { useNavigate } from "react-router-dom";
 import Advertising from "src/components/Advertising/Advertising";
 import Item from "src/components/Item/Item";
 import Order from "src/components/Order/Order";
+import { CountryType } from "src/store/store";
+
+interface FetchParams {
+  country: CountryType;
+  id: string;
+}
+
+export const fetchItem = async ({ country, id }: FetchParams): Promise<any> => {
+  const { data } = await axios.get(
+    "https://jaicar.kz/api/v1/catalog/turnkey/" + country + "/" + id
+  );
+  return data;
+};
 
 const ItemPage = () => {
+  // const { country, id } = useParams();
   const navigate = useNavigate();
+
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["carItem", country, id],
+  //   queryFn: () => fetchItem({ country: country as CountryType, id: id! }),
+  // });
+
   if (isMobile)
     return (
       <>

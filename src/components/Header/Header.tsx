@@ -9,7 +9,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const { country, setCountry } = useStore();
-  console.log(country);
+
   return (
     <AntdHeader>
       <Flex justify="space-between">
@@ -28,15 +28,15 @@ const Header = () => {
 
 const items: TabsProps["items"] = [
   {
-    key: "UAE",
+    key: "uae",
     label: "Каталог ОАЭ",
   },
   {
-    key: "Korea",
+    key: "kr",
     label: "Каталог Кореи",
   },
   {
-    key: "China",
+    key: "ch",
     label: "Каталог Китай",
   },
 ];

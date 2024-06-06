@@ -3,13 +3,13 @@ import { CountryType } from "./store/store";
 export const selectCountryName = (country: CountryType) => {
   let name;
   switch (country) {
-    case "China":
+    case "ch":
       name = "Китай";
       break;
-    case "Korea":
+    case "kr":
       name = "Корея";
       break;
-    case "UAE":
+    case "uae":
       name = "ОАЭ";
       break;
 

@@ -1,10 +1,12 @@
 import {
+  Button,
   Carousel,
   Col,
   DescriptionsProps,
   Divider,
   Flex,
   Image,
+  Popover,
   Row,
   Space,
   Typography,
@@ -89,6 +91,13 @@ const Item = () => {
     };
   }, [current]);
 
+  const content = (
+    <div>
+      <p>Content</p>
+      <p>Content</p>
+    </div>
+  );
+
   if (isMobile)
     return (
       <Flex vertical gap={8}>
@@ -123,6 +132,7 @@ const Item = () => {
           <Typography.Title level={3} style={{ margin: 0 }}>
             Toyota Camry
           </Typography.Title>
+
           <Typography.Title level={4} style={{ marginTop: 0, marginBottom: 0 }}>
             18 500 000 Т
           </Typography.Title>
@@ -274,14 +284,23 @@ const Item = () => {
   return (
     <Row gutter={[24, 24]}>
       <Col span={8}>
-        <Typography.Title level={3} style={{ marginTop: 0 }}>
-          18 500 000 ₸
-        </Typography.Title>
-        <Row gutter={[12, 12]} align={"middle"}>
+        <Flex
+          justify="space-between"
+          align="center"
+          style={{ marginBottom: 24 }}
+        >
+          <Typography.Title level={3} style={{ marginTop: 0, marginBottom: 0 }}>
+            18 500 000 Т
+          </Typography.Title>
+          <Popover content={content} title="Title">
+            <Button type="primary">Полный расчет</Button>
+          </Popover>
+        </Flex>
+        <Row gutter={[12, 12]} align={"middle"} style={{ paddingRight: 8 }}>
           <Col span={12}>
             <Typography.Text type="secondary">В долларах</Typography.Text>
           </Col>
-          <Col span={10} style={{ textAlign: "right" }}>
+          <Col span={12} style={{ textAlign: "right" }}>
             <Typography.Text
               style={{
                 fontSize: "1rem",
@@ -298,7 +317,7 @@ const Item = () => {
           <Col span={12}>
             <Typography.Text type="secondary">Доставка</Typography.Text>
           </Col>
-          <Col span={10} style={{ textAlign: "right" }}>
+          <Col span={12} style={{ textAlign: "right" }}>
             <Typography.Text style={{ fontSize: "1.2rem", fontWeight: 600 }}>
               До Алматы
             </Typography.Text>

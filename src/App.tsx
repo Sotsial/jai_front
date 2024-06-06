@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<MainPage />} />
-          <Route path="/item/:id" element={<ItemPage />} />
+          <Route path="/item/:country/:id" element={<ItemPage />} />
           <Route path="/*" element={<Navigate to={"/"} />} />
         </Route>
       </Routes>

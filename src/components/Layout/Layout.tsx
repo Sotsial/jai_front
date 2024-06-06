@@ -10,17 +10,17 @@ import useStore, { CountryType } from "src/store/store";
 
 const tabs = [
   {
-    key: "UAE",
+    key: "uae",
     title: "Каталог ОАЭ",
     icon: "🇦🇪",
   },
   {
-    key: "Korea",
+    key: "kr",
     title: "Каталог Кореи",
     icon: "🇰🇷",
   },
   {
-    key: "China",
+    key: "ch",
     title: "Каталог Китая",
     icon: "🇨🇳",
   },

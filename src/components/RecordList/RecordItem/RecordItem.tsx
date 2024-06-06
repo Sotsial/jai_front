@@ -1,4 +1,3 @@
-import image from "src/assets/car-mini.png";
 import "./RecordItem.css";
 import { Card, Col, Flex, Row, Space, Typography } from "antd";
 import { useNavigate } from "react-router-dom";
@@ -8,32 +7,40 @@ import { selectCountryName } from "src/utiles";
 
 const { Link, Text, Title } = Typography;
 
-export interface ItemVm {
+export interface CarVM {
+  id: number;
+  body_type: string;
+  brand: string;
+  catalog_item_id: string;
+  engine_capacity: string;
+  fuel_type: string;
   model: string;
-  fuel: string;
+  exterior_color: string;
+  mileage: number;
+  total_price: number;
+  total_price_kzt: number;
+  transmissions_type: string;
   year: number;
-  engine_volume: string | null;
-  price_usd: number;
-  price_kzt: number;
-  color: string;
-  mileage_km: number;
+  gallery: { path: string }[];
 }
-
 const numberWithSeparator = (number: number) => {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
 const RecordItem = ({
+  id,
   model,
-  engine_volume,
-  fuel,
+  engine_capacity,
+  fuel_type,
   year,
-  price_usd,
-  price_kzt,
+  total_price,
+  total_price_kzt,
   city,
-  color,
-  mileage_km,
-}: ItemVm & { city: string }) => {
+  exterior_color,
+  mileage,
+  gallery,
+  transmissions_type,
+}: CarVM & { city: string }) => {
   const navigate = useNavigate();
   const { country } = useStore();
   if (isMobile)
@@ -49,11 +56,11 @@ const RecordItem = ({
               <Link className="record_item_model">{model}</Link>
               <Space align="center">
                 <Text className="record_item_price_tenge">
-                  {numberWithSeparator(price_kzt)} ₸
+                  {numberWithSeparator(total_price_kzt)} ₸
                 </Text>
 
                 <Text className="record_item_price_dollar">
-                  ${numberWithSeparator(price_usd)}
+                  ${numberWithSeparator(total_price)}
                 </Text>
               </Space>
             </Flex>
@@ -71,13 +78,18 @@ const RecordItem = ({
             </Space>
           </Col>
           <Col span={12}>
-            <img src={image} />
+            <div
+              style={{
+                backgroundImage: `url("${gallery[0].path}")`,
+              }}
+              className="record_item_image"
+            />
           </Col>
           <Col span={12}>
             <Flex vertical justify="space-between" style={{ height: "100%" }}>
               <Space direction="vertical">
                 <Text style={{ fontSize: "0.8rem" }}>
-                  {`${year} / ${engine_volume} / Пробег: ${mileage_km} / ${fuel} / Автомат / ${color}`}
+                  {`${year} / ${engine_capacity} / Пробег: ${mileage} / ${fuel_type} / ${transmissions_type} / ${exterior_color}`}
                 </Text>
               </Space>
               <Text type="secondary">{selectCountryName(country)}</Text>
@@ -91,18 +103,23 @@ const RecordItem = ({
     <Card styles={{ body: { padding: 0 } }} style={{ border: "none" }}>
       <Row
         className="record_item"
-        onClick={() => navigate("item/123")}
+        onClick={() => navigate(`item/${country}/${id}`)}
         gutter={24}
       >
         <Col span={6}>
-          <img src={image} />
+          <div
+            style={{
+              backgroundImage: `url("${gallery[0].path}")`,
+            }}
+            className="record_item_image"
+          />
         </Col>
         <Col span={10}>
           <Flex vertical justify="space-between" style={{ height: "100%" }}>
             <Space direction="vertical">
               <Link style={{ fontSize: "1.3rem" }}>{model}</Link>
               <Text style={{ fontSize: "1rem" }}>
-                {`${year} / ${engine_volume} / Пробег: 123 / ${fuel} / Автомат / Белый`}
+                {`${year} / ${engine_capacity} / Пробег: ${mileage} / ${fuel_type} / ${transmissions_type} / ${exterior_color}`}
               </Text>
             </Space>
             <Text type="secondary">{selectCountryName(country)}</Text>
@@ -111,8 +128,8 @@ const RecordItem = ({
         <Col span={8}>
           <Flex vertical gap={6} style={{ textAlign: "right", margin: 0 }}>
             <Title level={4} style={{ margin: 0 }}>
-              {numberWithSeparator(price_kzt)} ₸ |{" "}
-              {numberWithSeparator(price_usd)} $
+              {numberWithSeparator(total_price_kzt)} ₸ |{" "}
+              {numberWithSeparator(total_price)} $
             </Title>
             <Text type="secondary" style={{ fontSize: "0.8rem" }}>
               Цена указана с учетом всех расходов с доставкой до {city}

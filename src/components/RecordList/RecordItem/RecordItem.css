@@ -3,10 +3,16 @@
   width: 100% !important;
   cursor: pointer;
 
-  img {
+  .record_item_image {
     border-radius: 8px;
-    width: 100%;
-    min-height: 100%;
+    height: 100%;
+    background-position: center center;
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 100px;
   }
 
   .record_item_price_dollar {
@@ -29,7 +35,25 @@
   }
 }
 
+.record_list {
+  .ant-skeleton-avatar {
+    height: 100px !important;
+    width: 100px !important;
+  }
+}
+
 @media (max-width: 768px) {
+  .record_list {
+    .ant-skeleton-avatar {
+      height: 70px !important;
+      width: 70px !important;
+      margin-top: 24px;
+    }
+    .ant-skeleton {
+      margin-left: 12px;
+    }
+  }
+
   .record_item {
     padding: 4px;
     max-height: max-content;

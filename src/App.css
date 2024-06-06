@@ -31,3 +31,32 @@
     color: rgb(255, 255, 255) !important;
   }
 }
+
+li > div {
+  width: 100%;
+}
+
+.ant-picker,
+.ant-input-number-affix-wrapper {
+  width: 100%;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #1866af;
+  border-radius: 6px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #1677ff;
+}

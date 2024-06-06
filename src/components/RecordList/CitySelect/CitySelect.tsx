@@ -1,13 +1,10 @@
 import { Space, Typography, Select, Card, Flex } from "antd";
 import { isMobile } from "react-device-detect";
+import useStore from "src/store/store";
 
-const CitySelect = ({
-  city,
-  setCity,
-}: {
-  city: string;
-  setCity: (v: string) => void;
-}) => {
+const CitySelect = ({ total = 0 }: { total?: number }) => {
+  const { city, setCity } = useStore();
+
   if (isMobile)
     return (
       <Card styles={{ body: { padding: 12 } }}>
@@ -26,7 +23,7 @@ const CitySelect = ({
           />
         </Flex>
         <Typography.Text type="secondary">
-          Найдено 53 765 объявлений
+          Найдено {total} объявлений
         </Typography.Text>
       </Card>
     );
@@ -46,7 +43,7 @@ const CitySelect = ({
           ]}
         />
       </Space>
-      <Typography.Text>Найдено 53 765 объявлений</Typography.Text>
+      <Typography.Text>Найдено {total} объявлений</Typography.Text>
       <Typography.Text>
         <Space>
           Сортировать по:
