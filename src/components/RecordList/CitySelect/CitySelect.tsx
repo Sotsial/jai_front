@@ -3,7 +3,7 @@ import { isMobile } from "react-device-detect";
 import useStore from "src/store/store";
 
 const CitySelect = ({ total = 0 }: { total?: number }) => {
-  const { city, setCity } = useStore();
+  const { city, setCity, setFilter } = useStore();
 
   if (isMobile)
     return (
@@ -47,7 +47,9 @@ const CitySelect = ({ total = 0 }: { total?: number }) => {
       <Typography.Text>
         <Space>
           Сортировать по:
-          <Typography.Link underline>По умолчанию</Typography.Link>
+          <Typography.Link underline onClick={() => setFilter({})}>
+            По умолчанию
+          </Typography.Link>
         </Space>
       </Typography.Text>
     </Space>
