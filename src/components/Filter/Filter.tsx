@@ -278,7 +278,12 @@ const Filter = () => {
                     },
                   ]}
                 >
-                  <InputNumber min={0} prefix={"от"} inputMode="decimal" />
+                  <InputNumber
+                    min={0}
+                    prefix={"от"}
+                    inputMode="decimal"
+                    addonAfter="см³"
+                  />
                 </Form.Item>
               </Col>
               <Col span={6}>
@@ -292,7 +297,12 @@ const Filter = () => {
                     },
                   ]}
                 >
-                  <InputNumber min={0} prefix={"до"} inputMode="decimal" />
+                  <InputNumber
+                    min={0}
+                    prefix={"до"}
+                    inputMode="decimal"
+                    addonAfter="см³"
+                  />
                 </Form.Item>
               </Col>
               <Col span={6}>
