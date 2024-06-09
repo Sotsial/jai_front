@@ -204,12 +204,6 @@ const Item = ({
         </Typography.Title>
         <Row style={{ paddingInline: 12 }}>
           <Col span={24}>
-            <Typography.Title
-              style={{ marginTop: 4, paddingInline: 6 }}
-              level={5}
-            >
-              Экстерьер / интерьер
-            </Typography.Title>
             <ul
               style={{
                 listStyleType: "disc",
