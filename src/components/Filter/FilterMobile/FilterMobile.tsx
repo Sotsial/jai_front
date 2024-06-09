@@ -22,6 +22,7 @@ import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
 import "./FilterMobile.css";
 import { separator } from "src/components/RecordList/RecordItem/RecordItem";
+import { RuleObject } from "antd/es/form";
 
 export const FilterButtonMobile = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -105,6 +106,38 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
     form.setFieldValue("fuel_type", undefined);
   }, [country]);
 
+  const validateYearToMore = (_: RuleObject, value: any) => {
+    const yearFrom = form.getFieldValue("yearFrom");
+    if (yearFrom && value && value.year() < yearFrom.year()) {
+      return Promise.reject(`Не может быть  раньше ${yearFrom.year()}г`);
+    }
+    return Promise.resolve();
+  };
+
+  const validateYearLess = (_: RuleObject, value: any) => {
+    const yearFrom = form.getFieldValue("yearTo");
+    if (yearFrom && value && value.year() > yearFrom.year()) {
+      return Promise.reject(`Не может быть позже ${yearFrom.year()}г`);
+    }
+    return Promise.resolve();
+  };
+
+  const validatePriceToLess = (value: number, name: string) => {
+    const priceFrom = form.getFieldValue(name);
+    if (priceFrom !== undefined && value !== undefined && value < priceFrom) {
+      return Promise.reject("Не может быть меньше " + priceFrom);
+    }
+    return Promise.resolve();
+  };
+
+  const validatePriceToMore = (value: number, name: string) => {
+    const priceFrom = form.getFieldValue(name);
+    if (priceFrom !== undefined && value !== undefined && value > priceFrom) {
+      return Promise.reject("Не может быть больше " + priceFrom);
+    }
+    return Promise.resolve();
+  };
+
   return (
     <>
       <Flex
@@ -150,7 +183,11 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
 
         <Row gutter={12} style={{ width: "100%" }}>
           <Col span={12}>
-            <Form.Item name="yearFrom" label="Год выпуска">
+            <Form.Item
+              name="yearFrom"
+              label="Год выпуска"
+              rules={[{ validator: validateYearLess }]}
+            >
               <DatePicker prefix={"от"} picker="year" placeholder="От" />
             </Form.Item>
           </Col>
@@ -158,12 +195,22 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
             <Form.Item
               name="yearTo"
               label={<div style={{ opacity: 0 }}>1</div>}
+              rules={[{ validator: validateYearToMore }]}
             >
               <DatePicker prefix={"до"} picker="year" placeholder="До" />
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="priceFrom" label="Бюджет, KZT">
+            <Form.Item
+              name="priceFrom"
+              label="Бюджет, KZT"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    validatePriceToMore(value, "priceTo"),
+                },
+              ]}
+            >
               <InputNumber
                 min={0}
                 placeholder={"От"}
@@ -176,6 +223,12 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
             <Form.Item
               name="priceTo"
               label={<div style={{ opacity: 0 }}>1</div>}
+              rules={[
+                {
+                  validator: (_, value) =>
+                    validatePriceToLess(value, "priceFrom"),
+                },
+              ]}
             >
               <InputNumber
                 min={0}
@@ -186,7 +239,16 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
             </Form.Item>
           </Col>
           <Col span={12}>
-            <Form.Item name="mileageFrom" label="Пробег, км">
+            <Form.Item
+              name="mileageFrom"
+              label="Пробег, км"
+              rules={[
+                {
+                  validator: (_, value) =>
+                    validatePriceToMore(value, "mileageTo"),
+                },
+              ]}
+            >
               <InputNumber
                 min={0}
                 placeholder={"От"}
@@ -199,6 +261,12 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
             <Form.Item
               name="mileageTo"
               label={<div style={{ opacity: 0 }}>1</div>}
+              rules={[
+                {
+                  validator: (_, value) =>
+                    validatePriceToLess(value, "mileageFrom"),
+                },
+              ]}
             >
               <InputNumber
                 min={0}
@@ -214,6 +282,12 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
               label={
                 <div style={{ textWrap: "nowrap" }}>Объем двигателя, см3</div>
               }
+              rules={[
+                {
+                  validator: (_, value) =>
+                    validatePriceToMore(value, "engineCapacityTo"),
+                },
+              ]}
             >
               <InputNumber
                 min={0}
@@ -227,6 +301,12 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
             <Form.Item
               name="engineCapacityTo"
               label={<div style={{ opacity: 0 }}>1</div>}
+              rules={[
+                {
+                  validator: (_, value) =>
+                    validatePriceToLess(value, "engineCapacityFrom"),
+                },
+              ]}
             >
               <InputNumber
                 min={0}

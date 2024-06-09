@@ -2,6 +2,7 @@ import { InstagramOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Card, Flex, Space, Typography } from "antd";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 import useStore, { CityType, CountryType } from "src/store/store";
 
 interface SupplierVM {
@@ -71,9 +72,11 @@ const Order = () => {
 export default Order;
 
 const WhatsAppLinkButton = ({ phoneNumber }: { phoneNumber: string }) => {
+  const { id, country } = useParams();
+
   const createWhatsAppLink = (phoneNumber: string) => {
     const cleanedNumber = phoneNumber.replace(/[\s()\-]/g, "");
-    return `https://wa.me/${cleanedNumber}`;
+    return `https://wa.me/${cleanedNumber}?text=Здравствуйте,%20интересует%20ваше%20объявление%20https://jai-front.vercel.app/item/${country}/${id}`;
   };
 
   const link = createWhatsAppLink(phoneNumber);

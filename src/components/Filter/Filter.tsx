@@ -157,7 +157,7 @@ const Filter = () => {
   const validateYearToMore = (_: RuleObject, value: any) => {
     const yearFrom = form.getFieldValue("yearFrom");
     if (yearFrom && value && value.year() < yearFrom.year()) {
-      return Promise.reject('"до" раньше года "от"');
+      return Promise.reject(`Не может быть  раньше ${yearFrom.year()}г`);
     }
     return Promise.resolve();
   };
@@ -165,7 +165,7 @@ const Filter = () => {
   const validateYearLess = (_: RuleObject, value: any) => {
     const yearFrom = form.getFieldValue("yearTo");
     if (yearFrom && value && value.year() > yearFrom.year()) {
-      return Promise.reject('"от" позже года "до"');
+      return Promise.reject(`Не может быть позже ${yearFrom.year()}г`);
     }
     return Promise.resolve();
   };
@@ -173,7 +173,7 @@ const Filter = () => {
   const validatePriceToLess = (value: number, name: string) => {
     const priceFrom = form.getFieldValue(name);
     if (priceFrom !== undefined && value !== undefined && value < priceFrom) {
-      return Promise.reject('"до" меньше "от"');
+      return Promise.reject("Не может быть меньше " + priceFrom);
     }
     return Promise.resolve();
   };
@@ -181,7 +181,7 @@ const Filter = () => {
   const validatePriceToMore = (value: number, name: string) => {
     const priceFrom = form.getFieldValue(name);
     if (priceFrom !== undefined && value !== undefined && value > priceFrom) {
-      return Promise.reject('"от" больше "до"');
+      return Promise.reject("Не может быть больше " + priceFrom);
     }
     return Promise.resolve();
   };

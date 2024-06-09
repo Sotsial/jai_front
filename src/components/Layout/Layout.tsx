@@ -1,5 +1,5 @@
 import { Row } from "antd";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import Header from "../Header/Header";
 import "./Layout.css";
 import Footer from "../Footer/Footer";
@@ -49,6 +49,7 @@ const Layout = () => {
   const myElementRef = useRef<HTMLDivElement>(null);
 
   const { country, setCountry } = useStore();
+  const navigate = useNavigate();
 
   const { pathname } = useLocation();
 
@@ -56,7 +57,6 @@ const Layout = () => {
     if (myElementRef.current) {
       myElementRef.current.scrollTo({ top: 0 });
     }
-    console.log(myElementRef.current?.scrollTop);
   }, [pathname]);
 
   if (isMobile)
@@ -73,7 +73,10 @@ const Layout = () => {
         <div className={"bottom"}>
           <TabBar
             activeKey={country}
-            onChange={(country) => setCountry(country as CountryType)}
+            onChange={(country) => {
+              setCountry(country as CountryType);
+              navigate("/");
+            }}
           >
             {tabs.map((item) => (
               <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
