@@ -228,7 +228,7 @@ const Item = ({
           style={{ marginBottom: 24 }}
         >
           <Typography.Title level={3} style={{ marginTop: 0, marginBottom: 0 }}>
-            {total_price_kzt} Т
+            {separator(total_price_kzt)} Т
           </Typography.Title>
           <Popover content={<CalculationModal country={country} />}>
             <Button type="primary">Полный расчет</Button>
@@ -249,7 +249,7 @@ const Item = ({
                 borderRadius: 6,
               }}
             >
-              ${total_price}
+              ${separator(total_price)}
             </Typography.Text>
           </Col>
           <Col span={12}>
