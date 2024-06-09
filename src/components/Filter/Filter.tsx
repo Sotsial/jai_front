@@ -12,33 +12,67 @@ import {
   Typography,
 } from "antd";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
 import { RuleObject } from "antd/es/form";
 import { separator } from "../RecordList/RecordItem/RecordItem";
 
-export const transmissionsOptions = [
-  { value: "Автомат" },
-  { value: "Вариатор" },
-  { value: "Механика" },
-  { value: "Полуавтомат" },
-  { value: "Другое" },
-];
+export const transmissionsOptions = (country: CountryType) => {
+  if (country === "kr")
+    return [
+      { value: "Автомат" },
+      { value: "Вариатор" },
+      { value: "Механика" },
+      { value: "Полуавтомат" },
+      { value: "Другое" },
+    ];
 
-export const fuelOptions = [
-  { value: "Бензин" },
-  { value: "Дизель" },
-  { value: "Электро" },
-  { value: "Гибрид" },
-  { value: "Газ" },
-];
+  return [{ value: "Автомат" }, { value: "Механика" }];
+};
 
-export const bodyOptions = [
-  { value: "Седан" },
-  { value: "Джип" },
-  { value: "Минивэн" },
-];
+export const fuelOptions = (country: CountryType) => {
+  const options = [
+    { value: "Бензин" },
+    { value: "Дизель" },
+    { value: "Электро" },
+    { value: "Гибрид" },
+  ];
+
+  if (country === "kr") options.push({ value: "Газ" });
+
+  return options;
+};
+
+export const bodyOptions = (country: CountryType) => {
+  if (country === "uae")
+    return [
+      { value: "Купе" },
+      { value: "Другое" },
+      { value: "Пикап" },
+      { value: "Спорткар" },
+      { value: "Внедорожник" },
+      { value: "Седан" },
+      { value: "Хэтчбек" },
+      { value: "Кабриолет" },
+      { value: "Фургон" },
+      { value: "Универсал" },
+      { value: "Кроссовер" },
+    ];
+  if (country === "ch")
+    return [{ value: "Седан" }, { value: "Джип" }, { value: "Минивэн" }];
+  if (country === "kr")
+    return [
+      { value: "Седан" },
+      { value: "Внедорожник" },
+      { value: "Спорткар" },
+      { value: "Грузовой автомобиль" },
+      { value: "Фургон" },
+      { value: "Кемпер" },
+      { value: "Другое" },
+    ];
+  return [];
+};
 
 export const driveUnitOptions = [
   { value: "Задний" },
@@ -70,6 +104,12 @@ const Filter = () => {
     queryKey: ["list", country, formValueDebouce],
     queryFn: () => fetchFilter(country, formValueDebouce),
   });
+
+  useEffect(() => {
+    form.setFieldValue("transmissions_type", undefined);
+    form.setFieldValue("body_type", undefined);
+    form.setFieldValue("fuel_type", undefined);
+  }, [country]);
 
   const handleFormValuesChange = (
     _: string,
@@ -234,7 +274,7 @@ const Filter = () => {
                 <Form.Item name={"transmissions_type"} label="КПП">
                   <Select
                     placeholder="Не выбрано"
-                    options={transmissionsOptions}
+                    options={transmissionsOptions(country)}
                     allowClear
                   />
                 </Form.Item>
@@ -243,7 +283,7 @@ const Filter = () => {
                 <Form.Item name={"fuel_type"} label="Тип топливо">
                   <Select
                     placeholder="Не выбрано"
-                    options={fuelOptions}
+                    options={fuelOptions(country)}
                     allowClear
                   />
                 </Form.Item>
@@ -252,7 +292,7 @@ const Filter = () => {
                 <Form.Item name={"body_type"} label="Тип кузова">
                   <Select
                     placeholder="Не выбрано"
-                    options={bodyOptions}
+                    options={bodyOptions(country)}
                     allowClear
                   />
                 </Form.Item>

@@ -17,7 +17,7 @@ import {
 } from "../Filter";
 import { CloseOutlined } from "@ant-design/icons";
 import useStore, { FilterParams } from "src/store/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
 import "./FilterMobile.css";
@@ -48,6 +48,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
   const [formValueDebouce] = useDebounce(formValue, 500);
 
   const { country, setFilter, setCity } = useStore();
+  const [form] = Form.useForm();
 
   const { data } = useQuery({
     queryKey: ["list", country, formValueDebouce],
@@ -98,6 +99,12 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
     onClose();
   };
 
+  useEffect(() => {
+    form.setFieldValue("transmissions_type", undefined);
+    form.setFieldValue("body_type", undefined);
+    form.setFieldValue("fuel_type", undefined);
+  }, [country]);
+
   return (
     <>
       <Flex
@@ -118,6 +125,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
         />
       </Flex>
       <Form
+        form={form}
         layout="vertical"
         style={{ width: "100%" }}
         footer={
@@ -231,15 +239,15 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
         </Row>
 
         <Form.Item layout="horizontal" name={"transmissions_type"} label="КПП">
-          <MoblieSelect options={transmissionsOptions} />
+          <MoblieSelect options={transmissionsOptions(country)} />
         </Form.Item>
 
         <Form.Item layout="horizontal" name={"fuel_type"} label="Тип топливо">
-          <MoblieSelect options={fuelOptions} />
+          <MoblieSelect options={fuelOptions(country)} />
         </Form.Item>
 
         <Form.Item layout="horizontal" name={"body_type"} label="Тип кузова">
-          <MoblieSelect options={bodyOptions} />
+          <MoblieSelect options={bodyOptions(country)} />
         </Form.Item>
         <Form.Item layout="horizontal" label="Привод">
           <MoblieSelect options={driveUnitOptions} />
