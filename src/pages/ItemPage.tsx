@@ -14,6 +14,7 @@ import { isMobile } from "react-device-detect";
 import { useNavigate, useParams } from "react-router-dom";
 import Advertising from "src/components/Advertising/Advertising";
 import Item from "src/components/Item/Item";
+import { countryName } from "src/components/Layout/Layout";
 import Order from "src/components/Order/Order";
 import { CarVM } from "src/components/RecordList/RecordItem/RecordItem";
 import { CountryType } from "src/store/store";
@@ -124,7 +125,7 @@ const ItemPage = () => {
               onClick: () => navigate("/"),
             },
             {
-              title: "Каталог ОАЭ",
+              title: "Каталог " + countryName(country as CountryType),
               onClick: () => navigate("/"),
             },
             {
@@ -139,7 +140,10 @@ const ItemPage = () => {
         />
       </Col>
 
-      <Typography.Title level={2} style={{ margin: 0 }}>
+      <Typography.Title
+        level={2}
+        style={{ margin: 0, textTransform: "capitalize" }}
+      >
         {data?.catalog_item?.brand} | {data?.catalog_item?.model}
       </Typography.Title>
       <Divider style={{ margin: "8px 0" }} />

@@ -15,6 +15,8 @@ import axios from "axios";
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
+import { RuleObject } from "antd/es/form";
+import { separator } from "../RecordList/RecordItem/RecordItem";
 
 export const transmissionsOptions = [
   { value: "Автомат" },
@@ -112,6 +114,38 @@ const Filter = () => {
     setFilter(allValues);
   };
 
+  const validateYearToMore = (_: RuleObject, value: any) => {
+    const yearFrom = form.getFieldValue("yearFrom");
+    if (yearFrom && value && value.year() < yearFrom.year()) {
+      return Promise.reject('"до" раньше года "от"');
+    }
+    return Promise.resolve();
+  };
+
+  const validateYearLess = (_: RuleObject, value: any) => {
+    const yearFrom = form.getFieldValue("yearTo");
+    if (yearFrom && value && value.year() > yearFrom.year()) {
+      return Promise.reject('"от" позже года "до"');
+    }
+    return Promise.resolve();
+  };
+
+  const validatePriceToLess = (value: number, name: string) => {
+    const priceFrom = form.getFieldValue(name);
+    if (priceFrom !== undefined && value !== undefined && value < priceFrom) {
+      return Promise.reject('"до" меньше "от"');
+    }
+    return Promise.resolve();
+  };
+
+  const validatePriceToMore = (value: number, name: string) => {
+    const priceFrom = form.getFieldValue(name);
+    if (priceFrom !== undefined && value !== undefined && value > priceFrom) {
+      return Promise.reject('"от" больше "до"');
+    }
+    return Promise.resolve();
+  };
+
   return (
     <div className="filter">
       <Form
@@ -141,23 +175,57 @@ const Filter = () => {
             </Typography.Title>
             <Row gutter={12}>
               <Col span={6}>
-                <Form.Item name="yearFrom" label="Год выпуска">
+                <Form.Item
+                  name="yearFrom"
+                  label="Год выпуска"
+                  rules={[{ validator: validateYearLess }]}
+                >
                   <DatePicker prefix={"от"} picker="year" />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item name="yearTo" label=" ">
+                <Form.Item
+                  name="yearTo"
+                  label=" "
+                  rules={[{ validator: validateYearToMore }]}
+                >
                   <DatePicker prefix={"до"} picker="year" />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item name="priceFrom" label="Бюджет, KZT">
-                  <InputNumber min={0} prefix={"от"} />
+                <Form.Item
+                  name="priceFrom"
+                  label="Бюджет, KZT"
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        validatePriceToMore(value, "priceTo"),
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    min={0}
+                    prefix={"от"}
+                    formatter={(value) => separator(value)}
+                  />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item name="priceTo" label=" ">
-                  <InputNumber min={0} prefix={"до"} />
+                <Form.Item
+                  name="priceTo"
+                  label=" "
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        validatePriceToLess(value, "priceFrom"),
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    min={0}
+                    prefix={"до"}
+                    formatter={(value) => separator(value)}
+                  />
                 </Form.Item>
               </Col>
               <Col span={6}>
@@ -201,23 +269,64 @@ const Filter = () => {
                 <Form.Item
                   name="engineCapacityFrom"
                   label="Объем двигателя, см3"
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        validatePriceToMore(value, "engineCapacityTo"),
+                    },
+                  ]}
                 >
                   <InputNumber min={0} prefix={"от"} />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item name="engineCapacityTo" label=" ">
+                <Form.Item
+                  name="engineCapacityTo"
+                  label=" "
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        validatePriceToLess(value, "engineCapacityFrom"),
+                    },
+                  ]}
+                >
                   <InputNumber min={0} prefix={"до"} />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item name="mileageFrom" label="Пробег, км">
-                  <InputNumber min={0} prefix={"от"} />
+                <Form.Item
+                  name="mileageFrom"
+                  label="Пробег, км"
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        validatePriceToMore(value, "mileageTo"),
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    min={0}
+                    prefix={"от"}
+                    formatter={(value) => separator(value)}
+                  />
                 </Form.Item>
               </Col>
               <Col span={6}>
-                <Form.Item name="mileageTo" label=" ">
-                  <InputNumber min={0} prefix={"до"} />
+                <Form.Item
+                  name="mileageTo"
+                  label=" "
+                  rules={[
+                    {
+                      validator: (_, value) =>
+                        validatePriceToLess(value, "mileageFrom"),
+                    },
+                  ]}
+                >
+                  <InputNumber
+                    min={0}
+                    prefix={"до"}
+                    formatter={(value) => separator(value)}
+                  />
                 </Form.Item>
               </Col>
             </Row>

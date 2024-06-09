@@ -32,6 +32,7 @@ const Item = ({
   engine_capacity,
   technical_features,
   brand,
+  standard,
 }: CarVM) => {
   const { city, country } = useStore();
 
@@ -139,7 +140,10 @@ const Item = ({
           </Carousel>
         </Image.PreviewGroup>
         <Space direction="vertical" style={{ paddingInline: 12 }}>
-          <Typography.Title level={3} style={{ margin: 0 }}>
+          <Typography.Title
+            level={3}
+            style={{ margin: 0, textTransform: "capitalize" }}
+          >
             {brand} | {model}
           </Typography.Title>
           <Flex justify="space-between">
@@ -203,19 +207,43 @@ const Item = ({
           Технические характеристики
         </Typography.Title>
         <Row style={{ paddingInline: 12 }}>
-          <Col span={24}>
-            <ul
-              style={{
-                listStyleType: "disc",
-                fontSize: "1rem",
-                paddingLeft: 24,
-              }}
-            >
-              {carFeatures?.map((el) => (
-                <li>{el}</li>
-              ))}
-            </ul>
-          </Col>
+          {standard ? (
+            Object.keys(standard).map((el) => (
+              <Col span={24}>
+                <Typography.Title
+                  style={{ marginTop: 4, paddingInline: 6 }}
+                  level={5}
+                >
+                  {el}
+                </Typography.Title>
+                <ul
+                  style={{
+                    listStyleType: "disc",
+                    fontSize: "1rem",
+                    paddingLeft: 24,
+                  }}
+                >
+                  {Object.keys(standard[el]).map((item) => (
+                    <li>{item}</li>
+                  ))}
+                </ul>
+              </Col>
+            ))
+          ) : (
+            <Col span={24}>
+              <ul
+                style={{
+                  listStyleType: "disc",
+                  fontSize: "1rem",
+                  paddingLeft: 24,
+                }}
+              >
+                {carFeatures?.map((el) => (
+                  <li>{el}</li>
+                ))}
+              </ul>
+            </Col>
+          )}
         </Row>
       </Flex>
     );
@@ -333,25 +361,45 @@ const Item = ({
             Технические характеристики
           </Typography.Title>
           <Row>
-            <Col span={24}>
-              <ul
-                style={{
-                  display: "flex",
-                  flexWrap: "wrap", // Это позволит элементам переноситься на следующую строку
-                  listStyleType: "disc",
-                  fontSize: "1rem",
-                }}
-              >
-                {carFeatures?.map((el, index) => (
-                  <li
-                    key={index}
-                    style={{ flex: "1 0 50%", lineHeight: "1.5" }}
-                  >
+            {standard ? (
+              Object.keys(standard).map((el) => (
+                <Col span={12}>
+                  <Typography.Title style={{ marginTop: 6 }} level={5}>
                     {el}
-                  </li>
-                ))}
-              </ul>
-            </Col>
+                  </Typography.Title>
+                  <ul
+                    style={{
+                      listStyleType: "disc",
+                      fontSize: "1rem",
+                    }}
+                  >
+                    {Object.keys(standard[el]).map((item) => (
+                      <li>{item}</li>
+                    ))}
+                  </ul>
+                </Col>
+              ))
+            ) : (
+              <Col span={24}>
+                <ul
+                  style={{
+                    display: "flex",
+                    flexWrap: "wrap", // Это позволит элементам переноситься на следующую строку
+                    listStyleType: "disc",
+                    fontSize: "1rem",
+                  }}
+                >
+                  {carFeatures?.map((el, index) => (
+                    <li
+                      key={index}
+                      style={{ flex: "1 0 50%", lineHeight: "1.5" }}
+                    >
+                      {el}
+                    </li>
+                  ))}
+                </ul>
+              </Col>
+            )}
           </Row>
         </Space>
       </Col>

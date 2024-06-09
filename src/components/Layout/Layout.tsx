@@ -26,7 +26,7 @@ const tabs = [
   },
 ];
 
-export const countryName = (country: CountryType) => {
+export const countryName = (country?: CountryType) => {
   let name = "ОАЭ";
   switch (country) {
     case "ch":

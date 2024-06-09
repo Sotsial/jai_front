@@ -21,6 +21,7 @@ import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
 import "./FilterMobile.css";
+import { separator } from "src/components/RecordList/RecordItem/RecordItem";
 
 export const FilterButtonMobile = ({ onClick }: { onClick: () => void }) => {
   return (
@@ -155,7 +156,11 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
           </Col>
           <Col span={12}>
             <Form.Item name="priceFrom" label="Бюджет, KZT">
-              <InputNumber min={0} placeholder={"От"} />
+              <InputNumber
+                min={0}
+                placeholder={"От"}
+                formatter={(value) => separator(value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -163,12 +168,20 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
               name="priceTo"
               label={<div style={{ opacity: 0 }}>1</div>}
             >
-              <InputNumber min={0} placeholder={"До"} />
+              <InputNumber
+                min={0}
+                placeholder={"До"}
+                formatter={(value) => separator(value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
             <Form.Item name="mileageFrom" label="Пробег, км">
-              <InputNumber min={0} placeholder={"От"} />
+              <InputNumber
+                min={0}
+                placeholder={"От"}
+                formatter={(value) => separator(value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -176,7 +189,11 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
               name="mileageTo"
               label={<div style={{ opacity: 0 }}>1</div>}
             >
-              <InputNumber min={0} placeholder={"До"} />
+              <InputNumber
+                min={0}
+                placeholder={"До"}
+                formatter={(value) => separator(value)}
+              />
             </Form.Item>
           </Col>
           <Col span={12}>

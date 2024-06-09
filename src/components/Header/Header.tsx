@@ -17,7 +17,10 @@ const Header = () => {
           <img src={logo} onClick={() => navigate("/")} className="logo" />
           <Tabs
             activeKey={country}
-            onChange={(country) => setCountry(country as CountryType)}
+            onChange={(country) => {
+              setCountry(country as CountryType);
+              navigate("/");
+            }}
             items={items}
           />
         </Space>

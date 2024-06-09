@@ -24,9 +24,10 @@ export interface CarVM {
   main_photo: string;
   gallery: { path: string }[];
   technical_features: string;
+  standard: Record<string, Record<string, number>>;
 }
 export const separator = (number?: number) => {
-  if (!number) return 0;
+  if (!number) return "0";
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
