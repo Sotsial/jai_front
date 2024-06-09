@@ -15,7 +15,7 @@ import "./Item.css";
 import { Fragment, useEffect, useRef, useState } from "react";
 import Order from "../Order/Order";
 import { isMobile } from "react-device-detect";
-import { CarVM } from "../RecordList/RecordItem/RecordItem";
+import { CarVM, separator } from "../RecordList/RecordItem/RecordItem";
 import useStore from "src/store/store";
 import { CarouselRef } from "antd/es/carousel";
 import CalculationModal from "../CalculationModal/CalculationModal";
@@ -147,7 +147,7 @@ const Item = ({
               level={4}
               style={{ marginTop: 0, marginBottom: 0 }}
             >
-              {total_price_kzt} Т
+              {separator(total_price_kzt)} Т
             </Typography.Title>
             <Popover content={<CalculationModal country={country} />}>
               <Button type="primary">Полный расчет</Button>
@@ -174,7 +174,7 @@ const Item = ({
                 borderRadius: 6,
               }}
             >
-              $41 111
+              ${separator(total_price)}
             </Typography.Text>
           </Col>
           <Col span={12}>
