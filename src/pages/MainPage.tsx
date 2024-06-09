@@ -1,26 +1,33 @@
 import { Affix, Col } from "antd";
+import { useState } from "react";
 import { isMobile } from "react-device-detect";
 import Advertising from "src/components/Advertising/Advertising";
 import Filter from "src/components/Filter/Filter";
-import FilterMobile from "src/components/Filter/FilterMobile/FilterMobile";
+import FilterMobile, {
+  FilterButtonMobile,
+} from "src/components/Filter/FilterMobile/FilterMobile";
 import Notion from "src/components/Notion/Notion";
 import RecordList from "src/components/RecordList/RecordList";
 
 const MainPage = () => {
-  if (isMobile)
+  const [filterOpen, setFilterOpen] = useState(false);
+  if (isMobile) {
+    if (filterOpen)
+      return <FilterMobile onClose={() => setFilterOpen(false)} />;
     return (
       <>
         <Col span={24}>
           <Notion />
         </Col>
         <Col span={24}>
-          <FilterMobile />
+          <FilterButtonMobile onClick={() => setFilterOpen(true)} />
         </Col>
         <Col span={24}>
           <RecordList />
         </Col>
       </>
     );
+  }
 
   return (
     <>

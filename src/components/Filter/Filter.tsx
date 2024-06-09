@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
 
-const transmissionsOptions = [
+export const transmissionsOptions = [
   { value: "Автомат" },
   { value: "Вариатор" },
   { value: "Механика" },
@@ -24,7 +24,7 @@ const transmissionsOptions = [
   { value: "Другое" },
 ];
 
-const fuelOptions = [
+export const fuelOptions = [
   { value: "Бензин" },
   { value: "Дизель" },
   { value: "Электро" },
@@ -32,13 +32,13 @@ const fuelOptions = [
   { value: "Газ" },
 ];
 
-const bodyOptions = [
+export const bodyOptions = [
   { value: "Седан" },
   { value: "Джип" },
   { value: "Минивэн" },
 ];
 
-const driveUnitOptions = [
+export const driveUnitOptions = [
   { value: "Задний" },
   { value: "Полный" },
   { value: "Передний" },

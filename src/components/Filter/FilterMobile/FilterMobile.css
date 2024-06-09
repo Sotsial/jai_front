@@ -1,0 +1,5 @@
+.filter_mobile {
+  .ant-input-number {
+    width: 100% !important;
+  }
+}
