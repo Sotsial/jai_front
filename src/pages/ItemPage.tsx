@@ -41,7 +41,8 @@ const ItemPage = () => {
     queryKey: ["carItem", country, id],
     queryFn: () => fetchItem({ country: country as CountryType, id: id! }),
   });
-  if (isLoading)
+
+  if (isLoading && !isMobile)
     return (
       <Col span={24}>
         <Skeleton />
@@ -89,7 +90,20 @@ const ItemPage = () => {
             ]}
           />
         </Flex>
-        <Col span={24}>{data && <Item {...data.catalog_item} />}</Col>
+        {isLoading ? (
+          <Col span={24}>
+            <div className="image-loader">
+              <Skeleton.Image
+                style={{ width: "100%", height: 300 }}
+                active={true}
+              />
+              <Skeleton />
+              <Skeleton />
+            </div>
+          </Col>
+        ) : (
+          <Col span={24}>{data && <Item {...data.catalog_item} />}</Col>
+        )}
         <Col span={24} style={{ paddingInline: 18 }}>
           <Order />
         </Col>
