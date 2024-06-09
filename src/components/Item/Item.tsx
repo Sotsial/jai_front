@@ -15,47 +15,36 @@ import "./Item.css";
 import { Fragment, useEffect, useRef, useState } from "react";
 import Order from "../Order/Order";
 import { isMobile } from "react-device-detect";
+import { CarVM } from "../RecordList/RecordItem/RecordItem";
+import useStore from "src/store/store";
+import { CarouselRef } from "antd/es/carousel";
+import CalculationModal from "../CalculationModal/CalculationModal";
 
-const items: DescriptionsProps["items"] = [
-  {
-    key: "1",
-    label: "Год выпуска",
-    children: "2011",
-  },
-  {
-    key: "2",
-    label: "Пробег",
-    children: "5 124 км",
-  },
-  {
-    key: "3",
-    label: "Кузов",
-    children: "Внедорожник",
-  },
-  {
-    key: "4",
-    label: "Объем двигателя, л",
-    children: "4.7",
-  },
-  {
-    key: "5",
-    label: "Цвет кузова",
-    children: "Серый",
-  },
-];
+const Item = ({
+  model,
+  total_price,
+  total_price_kzt,
+  gallery,
+  year,
+  mileage,
+  body_type,
+  exterior_color,
+  engine_capacity,
+  technical_features,
+  brand,
+}: CarVM) => {
+  const { city, country } = useStore();
 
-const images = [
-  "https://i.gaw.to/vehicles/photos/40/36/403605-2024-toyota-camry.jpg?640x400",
-  "https://imgd.aeplcdn.com/664x374/n/cw/ec/122561/toyota-camry-right-front-three-quarter6.jpeg?isig=0&wm=1&q=80",
-  "https://www.motortrend.com/uploads/sites/5/2020/07/2021-Toyota-Camry.jpg?w=768&width=768&q=75&format=webp",
-];
+  const carFeatures = technical_features?.split(", ");
 
-const Item = () => {
-  const [image, setImage] = useState(
-    "https://i.gaw.to/vehicles/photos/40/36/403605-2024-toyota-camry.jpg?640x400"
-  );
+  useEffect(() => {
+    if (gallery?.length > 1) setCurrent(0);
+  }, [gallery]);
 
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<CarouselRef>(null);
+
+  const images = gallery?.map((el) => el.path) ?? [];
 
   const [current, setCurrent] = useState(1);
 
@@ -79,7 +68,7 @@ const Item = () => {
   };
 
   useEffect(() => {
-    const slider = carouselRef.current;
+    const slider = previewRef.current;
     if (!slider) return;
 
     slider.addEventListener("touchstart", goToPreviousSlide);
@@ -91,12 +80,33 @@ const Item = () => {
     };
   }, [current]);
 
-  const content = (
-    <div>
-      <p>Content</p>
-      <p>Content</p>
-    </div>
-  );
+  const items: DescriptionsProps["items"] = [
+    {
+      key: "1",
+      label: "Год выпуска",
+      children: year,
+    },
+    {
+      key: "2",
+      label: "Пробег",
+      children: `${mileage} км`,
+    },
+    {
+      key: "3",
+      label: "Кузов",
+      children: body_type,
+    },
+    {
+      key: "4",
+      label: "Объем двигателя, л",
+      children: engine_capacity,
+    },
+    {
+      key: "5",
+      label: "Цвет кузова",
+      children: exterior_color,
+    },
+  ];
 
   if (isMobile)
     return (
@@ -109,7 +119,7 @@ const Item = () => {
             onChange: setCurrent,
             panelRef(instance) {
               // @ts-ignore
-              carouselRef.current = instance;
+              previewRef.current = instance;
             },
           }}
         >
@@ -130,12 +140,19 @@ const Item = () => {
         </Image.PreviewGroup>
         <Space direction="vertical" style={{ paddingInline: 12 }}>
           <Typography.Title level={3} style={{ margin: 0 }}>
-            Toyota Camry
+            {brand} | {model}
           </Typography.Title>
-
-          <Typography.Title level={4} style={{ marginTop: 0, marginBottom: 0 }}>
-            18 500 000 Т
-          </Typography.Title>
+          <Flex justify="space-between">
+            <Typography.Title
+              level={4}
+              style={{ marginTop: 0, marginBottom: 0 }}
+            >
+              {total_price_kzt} Т
+            </Typography.Title>
+            <Popover content={<CalculationModal country={country} />}>
+              <Button type="primary">Полный расчет</Button>
+            </Popover>
+          </Flex>
         </Space>
         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
         <Row
@@ -171,7 +188,7 @@ const Item = () => {
         </Row>
         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
         <Row gutter={[12, 12]} style={{ maxWidth: "100%", paddingInline: 12 }}>
-          {items.map((el) => (
+          {items?.map((el) => (
             <Fragment key={el.label as string}>
               <Col span={14}>
                 <Typography.Text>{el.label}</Typography.Text>
@@ -200,89 +217,16 @@ const Item = () => {
                 paddingLeft: 24,
               }}
             >
-              <li>Люк на крыше</li>
-              <li>Фары (Led)</li>
-              <li>Алюминиевые диски</li>
-              <li>Подогрев руля</li>
-              <li>Мультруль</li>
-              <li>Центразамок</li>
-              <li>Подрулевые переключатели</li>
-            </ul>
-          </Col>
-          <Col span={24}>
-            <Typography.Title
-              style={{ marginTop: 4, paddingInline: 6 }}
-              level={5}
-            >
-              Безопасность
-            </Typography.Title>
-            <ul
-              style={{
-                listStyleType: "disc",
-                fontSize: "1rem",
-                paddingLeft: 24,
-              }}
-            >
-              <li>Система контроля давления в шинах (TPMS)</li>
-              <li>Антиблокировочная система (ABS)</li>
-              <li>Система стабилизации (ESP)</li>
-              <li>Подушки безопасности</li>
-              <li>Задний видеокамера</li>
-              <li>Система помощи при парковке (Park Assist)</li>
-              <li>Система контроля слепых зон (BLIS)</li>
-            </ul>
-          </Col>
-          <Col span={24}>
-            <Typography.Title
-              style={{ marginTop: 4, paddingInline: 6 }}
-              level={5}
-            >
-              Удобство / Мультимедиа
-            </Typography.Title>
-            <ul
-              style={{
-                listStyleType: "disc",
-                fontSize: "1rem",
-                paddingLeft: 24,
-              }}
-            >
-              <li>Система навигации</li>
-              <li>Система голосового управления</li>
-              <li>Bluetooth соединение</li>
-              <li>USB порты</li>
-              <li>Система автоматического климат-контроля</li>
-              <li>Электропривод сидений</li>
-              <li>Аудиосистема высокого качества</li>
-            </ul>
-          </Col>
-          <Col span={24}>
-            <Typography.Title
-              style={{ marginTop: 4, paddingInline: 6 }}
-              level={5}
-            >
-              Сиденья
-            </Typography.Title>
-            <ul
-              style={{
-                listStyleType: "disc",
-                fontSize: "1rem",
-                paddingLeft: 24,
-              }}
-            >
-              <li>Электрорегулировка сидений</li>
-              <li>Подогрев передних сидений</li>
-              <li>Вентиляция передних сидений</li>
-              <li>Массажные функции в передних сиденьях</li>
-              <li>Память настройки положения сидений</li>
-              <li>Система поддержки поясницы</li>
-              <li>Регулируемый подголовник</li>
+              {carFeatures?.map((el) => (
+                <li>{el}</li>
+              ))}
             </ul>
           </Col>
         </Row>
       </Flex>
     );
   return (
-    <Row gutter={[24, 24]}>
+    <Row gutter={[24, 12]}>
       <Col span={8}>
         <Flex
           justify="space-between"
@@ -290,9 +234,9 @@ const Item = () => {
           style={{ marginBottom: 24 }}
         >
           <Typography.Title level={3} style={{ marginTop: 0, marginBottom: 0 }}>
-            18 500 000 Т
+            {total_price_kzt} Т
           </Typography.Title>
-          <Popover content={content} title="Title">
+          <Popover content={<CalculationModal country={country} />}>
             <Button type="primary">Полный расчет</Button>
           </Popover>
         </Flex>
@@ -311,7 +255,7 @@ const Item = () => {
                 borderRadius: 6,
               }}
             >
-              $41 111
+              ${total_price}
             </Typography.Text>
           </Col>
           <Col span={12}>
@@ -319,33 +263,66 @@ const Item = () => {
           </Col>
           <Col span={12} style={{ textAlign: "right" }}>
             <Typography.Text style={{ fontSize: "1.2rem", fontWeight: 600 }}>
-              До Алматы
+              До {city}
             </Typography.Text>
           </Col>
         </Row>
         <Divider />
         <Row gutter={[12, 12]}>
-          {items.map((el) => (
-            <>
+          {items?.map((el, index) => (
+            <Fragment key={index}>
               <Col span={12}>
                 <Typography.Text type="secondary">{el.label}</Typography.Text>
               </Col>
               <Col span={12}>
                 <Typography.Text>{el.children}</Typography.Text>
               </Col>
-            </>
+            </Fragment>
           ))}
         </Row>
         <Order />
       </Col>
       <Col span={16} className="item_right">
         <Space direction="vertical" style={{ width: "100%" }}>
-          <Image style={{ width: "100%" }} src={image} />
-          <Row gutter={12}>
-            {images.map((el) => (
+          <Image.PreviewGroup
+            preview={{
+              movable: false,
+              forceRender: true,
+              current: current,
+              onChange: setCurrent,
+              panelRef(instance) {
+                // @ts-ignore
+                previewRef.current = instance;
+              },
+            }}
+          >
+            <Carousel
+              arrows
+              infinite={false}
+              ref={(ref) => {
+                // @ts-ignore
+                carouselRef.current = ref;
+              }}
+            >
+              {images?.map((el, index) => (
+                <Image
+                  key={el}
+                  onClick={() => setCurrent(index)}
+                  style={{
+                    aspectRatio: "1/3",
+                    cursor: "pointer",
+                  }}
+                  src={el}
+                />
+              ))}
+            </Carousel>
+          </Image.PreviewGroup>
+
+          <Row gutter={[12, 12]}>
+            {images?.map((el, index) => (
               <Col key={el} span={4}>
                 <Image
-                  onClick={() => setImage(el)}
+                  onClick={() => carouselRef.current?.goTo(index)}
                   preview={false}
                   style={{
                     height: "80px",
@@ -362,80 +339,23 @@ const Item = () => {
             Технические характеристики
           </Typography.Title>
           <Row>
-            <Col span={12}>
-              <Typography.Title style={{ marginTop: 6 }} level={5}>
-                Экстерьер / интерьер
-              </Typography.Title>
+            <Col span={24}>
               <ul
                 style={{
+                  display: "flex",
+                  flexWrap: "wrap", // Это позволит элементам переноситься на следующую строку
                   listStyleType: "disc",
                   fontSize: "1rem",
                 }}
               >
-                <li>Люк на крыше</li>
-                <li>Фары (Led)</li>
-                <li>Алюминиевые диски</li>
-                <li>Подогрев руля</li>
-                <li>Мультруль</li>
-                <li>Центразамок</li>
-                <li>Подрулевые переключатели</li>
-              </ul>
-            </Col>
-            <Col span={12}>
-              <Typography.Title style={{ marginTop: 6 }} level={5}>
-                Безопасность
-              </Typography.Title>
-              <ul
-                style={{
-                  listStyleType: "disc",
-                  fontSize: "1rem",
-                }}
-              >
-                <li>Система контроля давления в шинах (TPMS)</li>
-                <li>Антиблокировочная система (ABS)</li>
-                <li>Система стабилизации (ESP)</li>
-                <li>Подушки безопасности</li>
-                <li>Задний видеокамера</li>
-                <li>Система помощи при парковке (Park Assist)</li>
-                <li>Система контроля слепых зон (BLIS)</li>
-              </ul>
-            </Col>
-            <Col span={12}>
-              <Typography.Title style={{ marginTop: 6 }} level={5}>
-                Удобство / Мультимедиа
-              </Typography.Title>
-              <ul
-                style={{
-                  listStyleType: "disc",
-                  fontSize: "1rem",
-                }}
-              >
-                <li>Система навигации</li>
-                <li>Система голосового управления</li>
-                <li>Bluetooth соединение</li>
-                <li>USB порты</li>
-                <li>Система автоматического климат-контроля</li>
-                <li>Электропривод сидений</li>
-                <li>Аудиосистема высокого качества</li>
-              </ul>
-            </Col>
-            <Col span={12}>
-              <Typography.Title style={{ marginTop: 6 }} level={5}>
-                Сиденья
-              </Typography.Title>
-              <ul
-                style={{
-                  listStyleType: "disc",
-                  fontSize: "1rem",
-                }}
-              >
-                <li>Электрорегулировка сидений</li>
-                <li>Подогрев передних сидений</li>
-                <li>Вентиляция передних сидений</li>
-                <li>Массажные функции в передних сиденьях</li>
-                <li>Память настройки положения сидений</li>
-                <li>Система поддержки поясницы</li>
-                <li>Регулируемый подголовник</li>
+                {carFeatures?.map((el, index) => (
+                  <li
+                    key={index}
+                    style={{ flex: "1 0 50%", lineHeight: "1.5" }}
+                  >
+                    {el}
+                  </li>
+                ))}
               </ul>
             </Col>
           </Row>

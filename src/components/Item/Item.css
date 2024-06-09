@@ -7,3 +7,26 @@
     padding-left: 18px;
   }
 }
+
+.ant-image-img {
+  max-height: 500px;
+  object-fit: cover;
+  border-radius: 8px;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+@media (max-width: 768px) {
+  .ant-image {
+    width: 100%;
+  }
+  .ant-image-img {
+    max-height: 300px;
+    border-radius: 0;
+  }
+}

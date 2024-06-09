@@ -21,9 +21,12 @@ export interface CarVM {
   total_price_kzt: number;
   transmissions_type: string;
   year: number;
+  main_photo: string;
   gallery: { path: string }[];
+  technical_features: string;
 }
-const numberWithSeparator = (number: number) => {
+export const separator = (number?: number) => {
+  if (!number) return 0;
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 };
 
@@ -38,7 +41,7 @@ const RecordItem = ({
   city,
   exterior_color,
   mileage,
-  gallery,
+  main_photo,
   transmissions_type,
 }: CarVM & { city: string }) => {
   const navigate = useNavigate();
@@ -48,7 +51,7 @@ const RecordItem = ({
       <Card styles={{ body: { padding: 8, paddingInline: 10 } }}>
         <Row
           className="record_item"
-          onClick={() => navigate("item/123")}
+          onClick={() => navigate(`item/${country}/${id}`)}
           gutter={[12, 12]}
         >
           <Col span={12}>
@@ -56,11 +59,11 @@ const RecordItem = ({
               <Link className="record_item_model">{model}</Link>
               <Space align="center">
                 <Text className="record_item_price_tenge">
-                  {numberWithSeparator(total_price_kzt)} ₸
+                  {separator(total_price_kzt)} ₸
                 </Text>
 
                 <Text className="record_item_price_dollar">
-                  ${numberWithSeparator(total_price)}
+                  ${separator(total_price)}
                 </Text>
               </Space>
             </Flex>
@@ -80,7 +83,7 @@ const RecordItem = ({
           <Col span={12}>
             <div
               style={{
-                backgroundImage: `url("${gallery[0].path}")`,
+                backgroundImage: `url("${main_photo}")`,
               }}
               className="record_item_image"
             />
@@ -109,7 +112,7 @@ const RecordItem = ({
         <Col span={6}>
           <div
             style={{
-              backgroundImage: `url("${gallery[0].path}")`,
+              backgroundImage: `url("${main_photo}")`,
             }}
             className="record_item_image"
           />
@@ -128,8 +131,7 @@ const RecordItem = ({
         <Col span={8}>
           <Flex vertical gap={6} style={{ textAlign: "right", margin: 0 }}>
             <Title level={4} style={{ margin: 0 }}>
-              {numberWithSeparator(total_price_kzt)} ₸ |{" "}
-              {numberWithSeparator(total_price)} $
+              {separator(total_price_kzt)} ₸ | {separator(total_price)} $
             </Title>
             <Text type="secondary" style={{ fontSize: "0.8rem" }}>
               Цена указана с учетом всех расходов с доставкой до {city}

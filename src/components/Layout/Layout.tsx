@@ -26,16 +26,37 @@ const tabs = [
   },
 ];
 
+export const countryName = (country: CountryType) => {
+  let name = "ОАЭ";
+  switch (country) {
+    case "ch":
+      name = "Китая";
+      break;
+    case "uae":
+      name = "ОАЭ";
+      break;
+    case "kr":
+      name = "Кореи";
+      break;
+
+    default:
+      break;
+  }
+  return name;
+};
+
 const Layout = () => {
   const myElementRef = useRef<HTMLDivElement>(null);
 
   const { country, setCountry } = useStore();
 
   const { pathname } = useLocation();
+
   useEffect(() => {
     if (myElementRef.current) {
       myElementRef.current.scrollTo({ top: 0 });
     }
+    console.log(myElementRef.current?.scrollTop);
   }, [pathname]);
 
   if (isMobile)
@@ -65,9 +86,9 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <div className="content">
+      <div className="content" ref={myElementRef}>
         <Row
-          gutter={isMobile ? [0, 8] : [12, 24]}
+          gutter={isMobile ? [0, 8] : [12, 18]}
           style={{ paddingTop: isMobile ? 0 : 24 }}
         >
           <Outlet />

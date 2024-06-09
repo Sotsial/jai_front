@@ -3,7 +3,13 @@ import RecordItem, { CarVM } from "./RecordItem/RecordItem";
 import { useState } from "react";
 import CitySelect from "./CitySelect/CitySelect";
 import { isMobile } from "react-device-detect";
-import useStore, { CityType, CountryType, FilterParams } from "src/store/store";
+import useStore, {
+  CityType,
+  CountryType,
+  FilterParams,
+  SortDirectionType,
+  SortType,
+} from "src/store/store";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,6 +30,8 @@ interface FetchTodoParams {
   city: CityType;
   page?: number;
   filter: FilterParams;
+  sort?: SortType;
+  sortDirection: SortDirectionType;
 }
 
 export const fetchList = async ({
@@ -31,6 +39,8 @@ export const fetchList = async ({
   city,
   page = 1,
   filter,
+  sort,
+  sortDirection,
 }: FetchTodoParams): Promise<CatalogVM> => {
   const { data } = await axios.get(
     "https://jaicar.kz/api/v1/catalog/turnkey/" + country,
@@ -39,6 +49,8 @@ export const fetchList = async ({
         ...filter,
         delivery_city: city,
         page: page,
+        yearSort: sort === "yearSort" ? sortDirection : undefined,
+        priceSort: sort === "priceSort" ? sortDirection : undefined,
       },
     }
   );
@@ -47,11 +59,11 @@ export const fetchList = async ({
 
 const RecordList = () => {
   const [page, setPage] = useState<number>(1); // Добавлено состояние для текущей страницы
-  const { country, city, filter } = useStore();
-  console.log(filter);
+  const { country, city, filter, sort, sortDirection } = useStore();
   const { data, isLoading } = useQuery({
-    queryKey: ["list", country, city, page, filter],
-    queryFn: () => fetchList({ country, city, page, filter }),
+    queryKey: ["list", country, city, page, filter, sort, sortDirection],
+    queryFn: () =>
+      fetchList({ country, city, page, filter, sort, sortDirection }),
   });
 
   const handlePageChange = (newPage: number) => {
@@ -76,13 +88,15 @@ const RecordList = () => {
         dataSource={
           isLoading ? ([1, 2, 3] as unknown as CarVM[]) : data?.catalog.data
         }
-        renderItem={(item) => (
-          <List.Item key={item.id}>
-            <Skeleton loading={isLoading} active avatar={{ shape: "square" }}>
-              <RecordItem {...item} city={city} />
-            </Skeleton>
-          </List.Item>
-        )}
+        renderItem={(item) => {
+          return (
+            <List.Item key={item.id}>
+              <Skeleton loading={isLoading} active avatar={{ shape: "square" }}>
+                <RecordItem {...item} city={city} />
+              </Skeleton>
+            </List.Item>
+          );
+        }}
         pagination={{
           align: "center",
           pageSize: data?.catalog.meta.per_page,

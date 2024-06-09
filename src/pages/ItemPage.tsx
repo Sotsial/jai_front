@@ -1,10 +1,21 @@
-import { Breadcrumb, Col, Divider, Flex, Select, Typography } from "antd";
+import { useQuery } from "@tanstack/react-query";
+import {
+  Breadcrumb,
+  Col,
+  Divider,
+  Flex,
+  Row,
+  Select,
+  Skeleton,
+  Typography,
+} from "antd";
 import axios from "axios";
 import { isMobile } from "react-device-detect";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Advertising from "src/components/Advertising/Advertising";
 import Item from "src/components/Item/Item";
 import Order from "src/components/Order/Order";
+import { CarVM } from "src/components/RecordList/RecordItem/RecordItem";
 import { CountryType } from "src/store/store";
 
 interface FetchParams {
@@ -12,7 +23,10 @@ interface FetchParams {
   id: string;
 }
 
-export const fetchItem = async ({ country, id }: FetchParams): Promise<any> => {
+export const fetchItem = async ({
+  country,
+  id,
+}: FetchParams): Promise<{ catalog_item: CarVM }> => {
   const { data } = await axios.get(
     "https://jaicar.kz/api/v1/catalog/turnkey/" + country + "/" + id
   );
@@ -20,14 +34,35 @@ export const fetchItem = async ({ country, id }: FetchParams): Promise<any> => {
 };
 
 const ItemPage = () => {
-  // const { country, id } = useParams();
+  const { country, id } = useParams();
   const navigate = useNavigate();
 
-  // const { data, isLoading } = useQuery({
-  //   queryKey: ["carItem", country, id],
-  //   queryFn: () => fetchItem({ country: country as CountryType, id: id! }),
-  // });
-
+  const { data, isLoading } = useQuery({
+    queryKey: ["carItem", country, id],
+    queryFn: () => fetchItem({ country: country as CountryType, id: id! }),
+  });
+  if (isLoading)
+    return (
+      <Col span={24}>
+        <Skeleton />
+        <Row gutter={[24, 12]}>
+          <Col span={8}>
+            <Skeleton />
+            <Skeleton />
+          </Col>
+          <Col span={16}>
+            <div className="image-loader">
+              <Skeleton.Image
+                style={{ width: "100%", height: 300 }}
+                active={true}
+              />
+            </div>
+            <Skeleton />
+            <Skeleton />
+          </Col>
+        </Row>
+      </Col>
+    );
   if (isMobile)
     return (
       <>
@@ -54,9 +89,7 @@ const ItemPage = () => {
             ]}
           />
         </Flex>
-        <Col span={24}>
-          <Item />
-        </Col>
+        <Col span={24}>{data && <Item {...data.catalog_item} />}</Col>
         <Col span={24} style={{ paddingInline: 18 }}>
           <Order />
         </Col>
@@ -74,27 +107,29 @@ const ItemPage = () => {
           items={[
             {
               title: "Главная",
-              path: "/",
+              onClick: () => navigate("/"),
             },
             {
               title: "Каталог ОАЭ",
-              path: "/",
+              onClick: () => navigate("/"),
             },
             {
-              title: "Toyota",
-              path: "/",
+              title: data?.catalog_item?.brand,
+              onClick: () => {},
+            },
+            {
+              title: data?.catalog_item?.model,
+              onClick: () => {},
             },
           ]}
         />
       </Col>
 
       <Typography.Title level={2} style={{ margin: 0 }}>
-        Toyota Camry
+        {data?.catalog_item?.brand} | {data?.catalog_item?.model}
       </Typography.Title>
       <Divider style={{ margin: "8px 0" }} />
-      <Col span={24}>
-        <Item />
-      </Col>
+      <Col span={24}>{data && <Item {...data.catalog_item} />}</Col>
     </>
   );
 };

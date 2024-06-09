@@ -59,12 +59,12 @@ export const fetchFilter = async (
 
 const Filter = () => {
   const [form] = Form.useForm();
-  const { country, setFilter } = useStore();
+  const { country, setFilter, setCity } = useStore();
 
   const [formValue, setFormValue] = useState<FilterParams>();
   const [formValueDebouce] = useDebounce(formValue, 500);
 
-  const { data, isLoading } = useQuery({
+  const { data } = useQuery({
     queryKey: ["list", country, formValueDebouce],
     queryFn: () => fetchFilter(country, formValueDebouce),
   });
@@ -108,7 +108,7 @@ const Filter = () => {
 
       allValues.yearTo = yearFromAsString;
     }
-
+    setCity(allValues.delivery_city);
     setFilter(allValues);
   };
 
@@ -224,12 +224,7 @@ const Filter = () => {
           </Col>
           <Col span={24} className="filter_button">
             <Flex align="center" justify="center">
-              <Button
-                loading={isLoading}
-                htmlType="submit"
-                type="primary"
-                size="large"
-              >
+              <Button htmlType="submit" type="primary" size="large">
                 Показать {data?.items_count} объявлений
               </Button>
             </Flex>

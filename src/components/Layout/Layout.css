@@ -19,3 +19,7 @@
 .adm-tab-bar-wrap {
   height: 100%;
 }
+
+.image-loader .ant-skeleton {
+  width: 100%;
+}
