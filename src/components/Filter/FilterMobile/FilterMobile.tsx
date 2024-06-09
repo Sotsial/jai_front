@@ -160,6 +160,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
                 min={0}
                 placeholder={"От"}
                 formatter={(value) => separator(value)}
+                inputMode="numeric"
               />
             </Form.Item>
           </Col>
@@ -172,6 +173,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
                 min={0}
                 placeholder={"До"}
                 formatter={(value) => separator(value)}
+                inputMode="numeric"
               />
             </Form.Item>
           </Col>
@@ -181,6 +183,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
                 min={0}
                 placeholder={"От"}
                 formatter={(value) => separator(value)}
+                inputMode="numeric"
               />
             </Form.Item>
           </Col>
@@ -193,6 +196,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
                 min={0}
                 placeholder={"До"}
                 formatter={(value) => separator(value)}
+                inputMode="numeric"
               />
             </Form.Item>
           </Col>
@@ -203,7 +207,12 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
                 <div style={{ textWrap: "nowrap" }}>Объем двигателя, см3</div>
               }
             >
-              <InputNumber min={0} placeholder={"До"} />
+              <InputNumber
+                min={0}
+                placeholder={"До"}
+                inputMode="decimal"
+                addonAfter="см³"
+              />
             </Form.Item>
           </Col>
           <Col span={12}>
@@ -211,7 +220,12 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
               name="engineCapacityTo"
               label={<div style={{ opacity: 0 }}>1</div>}
             >
-              <InputNumber min={0} placeholder={"До"} />
+              <InputNumber
+                min={0}
+                placeholder={"До"}
+                inputMode="decimal"
+                addonAfter="см³"
+              />
             </Form.Item>
           </Col>
         </Row>

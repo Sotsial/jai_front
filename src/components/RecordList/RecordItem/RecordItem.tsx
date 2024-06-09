@@ -131,7 +131,7 @@ const RecordItem = ({
         </Col>
         <Col span={8}>
           <Flex vertical gap={6} style={{ textAlign: "right", margin: 0 }}>
-            <Title level={4} style={{ margin: 0 }}>
+            <Title level={4} style={{ margin: 0, textWrap: "nowrap" }}>
               {separator(total_price_kzt)} ₸ | {separator(total_price)} $
             </Title>
             <Text type="secondary" style={{ fontSize: "0.8rem" }}>

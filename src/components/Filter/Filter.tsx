@@ -207,6 +207,7 @@ const Filter = () => {
                     min={0}
                     prefix={"от"}
                     formatter={(value) => separator(value)}
+                    inputMode="numeric"
                   />
                 </Form.Item>
               </Col>
@@ -225,6 +226,7 @@ const Filter = () => {
                     min={0}
                     prefix={"до"}
                     formatter={(value) => separator(value)}
+                    inputMode="numeric"
                   />
                 </Form.Item>
               </Col>
@@ -276,7 +278,7 @@ const Filter = () => {
                     },
                   ]}
                 >
-                  <InputNumber min={0} prefix={"от"} />
+                  <InputNumber min={0} prefix={"от"} inputMode="decimal" />
                 </Form.Item>
               </Col>
               <Col span={6}>
@@ -290,7 +292,7 @@ const Filter = () => {
                     },
                   ]}
                 >
-                  <InputNumber min={0} prefix={"до"} />
+                  <InputNumber min={0} prefix={"до"} inputMode="decimal" />
                 </Form.Item>
               </Col>
               <Col span={6}>
@@ -308,6 +310,7 @@ const Filter = () => {
                     min={0}
                     prefix={"от"}
                     formatter={(value) => separator(value)}
+                    inputMode="numeric"
                   />
                 </Form.Item>
               </Col>
