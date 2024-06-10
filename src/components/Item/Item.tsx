@@ -19,6 +19,8 @@ import { CarVM, separator } from "../RecordList/RecordItem/RecordItem";
 import useStore from "src/store/store";
 import { CarouselRef } from "antd/es/carousel";
 import CalculationModal from "../CalculationModal/CalculationModal";
+import { LeftOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
 
 const Item = ({
   model,
@@ -35,6 +37,7 @@ const Item = ({
   standard,
 }: CarVM) => {
   const { city, country } = useStore();
+  const navigate = useNavigate();
 
   const carFeatures = technical_features?.split(", ");
 
@@ -111,7 +114,31 @@ const Item = ({
 
   if (isMobile)
     return (
-      <Flex vertical gap={8}>
+      <Flex vertical gap={8} style={{ position: "relative" }}>
+        <div
+          style={{
+            position: "absolute",
+            zIndex: 9,
+            left: 8,
+            top: 8,
+            borderRadius: "50%",
+            backgroundColor: "rgba(0,0,0,0.5)",
+            height: 50,
+            width: 50,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          onClick={() => navigate(-1)}
+        >
+          <Button
+            icon={<LeftOutlined />}
+            size="large"
+            style={{ color: "#fff" }}
+            type="text"
+          />
+        </div>
+
         <Image.PreviewGroup
           preview={{
             movable: false,

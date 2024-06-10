@@ -1,19 +1,27 @@
 import { Adsense } from "@ctrl/react-adsense";
 import { Flex, Typography } from "antd";
 import { isMobile } from "react-device-detect";
+import { useNavigate } from "react-router-dom";
+import logo from "src/assets/logo-white.png";
 
 const Notion = () => {
+  const navigate = useNavigate();
   if (isMobile)
     return (
       <Flex
         style={{
-          padding: 12,
+          padding: 6,
+          paddingInline: 12,
           backgroundColor: "#1c1819",
         }}
         align="center"
         gap={32}
       >
-        <div style={{ color: "#fff", fontWeight: 600 }}>LOGO</div>
+        <img
+          src={logo}
+          onClick={() => navigate("/")}
+          style={{ maxHeight: 44 }}
+        />
         <Typography.Text
           style={{ color: "#fff", fontSize: "0.8rem", textWrap: "balance" }}
         >

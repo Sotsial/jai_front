@@ -18,6 +18,7 @@ import { countryName } from "src/components/Layout/Layout";
 import Order from "src/components/Order/Order";
 import { CarVM } from "src/components/RecordList/RecordItem/RecordItem";
 import { CountryType } from "src/store/store";
+import logo from "src/assets/logo-white.png";
 
 interface FetchParams {
   country: CountryType;
@@ -71,7 +72,8 @@ const ItemPage = () => {
         <Flex
           justify="space-between"
           style={{
-            padding: 12,
+            padding: 6,
+            paddingInline: 12,
             backgroundColor: "#1c1819",
             width: "100%",
             color: "#fff",
@@ -79,7 +81,11 @@ const ItemPage = () => {
           }}
           align="center"
         >
-          <strong onClick={() => navigate("/")}>Jai logo</strong>
+          <img
+            src={logo}
+            onClick={() => navigate("/")}
+            style={{ maxHeight: 44 }}
+          />
           <Select
             className="lang_select"
             defaultValue="ru"
@@ -91,6 +97,7 @@ const ItemPage = () => {
             ]}
           />
         </Flex>
+
         {isLoading ? (
           <Col span={24}>
             <div className="image-loader">
