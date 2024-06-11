@@ -18,18 +18,21 @@ import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
 import { RuleObject } from "antd/es/form";
 import { separator } from "../RecordList/RecordItem/RecordItem";
-import data from "src/mark.json";
+import uaedata from "src/uaemark.json";
+import krdata from "src/krmark.json";
 import { ReloadOutlined } from "@ant-design/icons";
 
-export const marks = data.map((el) => ({ value: el.mark }));
+export const marks = (country: string) =>
+  (country === "uae" ? uaedata : krdata)?.map((el) => ({ value: el.mark }));
 
-export const models = (mark: string) =>
+export const models = (mark: string, country: string) =>
   (
-    data.find((el) => el.mark === mark)?.models as {
+    (country === "uae" ? uaedata : krdata).find((el) => el.mark === mark)
+      ?.models as {
       id: string;
       name: string;
     }[]
-  ).map((model) => ({ value: model.name }));
+  )?.map((model) => ({ value: model.name }));
 
 export const transmissionsOptions = (country: CountryType) => {
   if (country === "kr")
@@ -115,7 +118,7 @@ const Filter = () => {
 
   const brand = Form.useWatch("brand", form);
 
-  const modelOptions = brand ? models(brand) : [];
+  const modelOptions = brand ? models(brand, country) : [];
 
   useEffect(() => {
     form.setFieldValue("model", undefined);
@@ -131,6 +134,18 @@ const Filter = () => {
     form.setFieldValue("transmissions_type", undefined);
     form.setFieldValue("body_type", undefined);
     form.setFieldValue("fuel_type", undefined);
+    handleFormValuesChange();
+  }, [country]);
+
+  useEffect(() => {
+    if (!modelOptions?.some((el) => el.value === form.getFieldValue("model"))) {
+      form.setFieldValue("model", undefined);
+    }
+    if (
+      !marks(country)?.some((el) => el.value === form.getFieldValue("brand"))
+    ) {
+      form.setFieldValue("brand", undefined);
+    }
     handleFormValuesChange();
   }, [country]);
 
@@ -152,7 +167,7 @@ const Filter = () => {
       allValues.yearTo = yearFromAsString;
     }
 
-    setFormValue(allValues);
+    setFormValue({ ...allValues, country });
   };
 
   const onFinish = (allValues: Record<string, any>) => {
@@ -223,7 +238,7 @@ const Filter = () => {
             <Form.Item label="Марка" name={"brand"}>
               <Select
                 placeholder="Не выбрано"
-                options={marks}
+                options={marks(country)}
                 showSearch
                 allowClear
               />

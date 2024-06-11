@@ -63,7 +63,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
 
   const brand = Form.useWatch("brand", form);
 
-  const modelOptions = brand ? models(brand) : [];
+  const modelOptions = brand ? models(brand, country) : [];
 
   const handleFormValuesChange = () => {
     const allValues = form.getFieldsValue();
@@ -117,6 +117,18 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
       form.setFieldValue("transmissions_type", undefined);
       form.setFieldValue("body_type", undefined);
       form.setFieldValue("fuel_type", undefined);
+    }
+    handleFormValuesChange();
+  }, [country]);
+
+  useEffect(() => {
+    if (!modelOptions?.some((el) => el.value === form.getFieldValue("model"))) {
+      form.setFieldValue("model", undefined);
+    }
+    if (
+      !marks(country)?.some((el) => el.value === form.getFieldValue("brand"))
+    ) {
+      form.setFieldValue("brand", undefined);
     }
     handleFormValuesChange();
   }, [country]);
@@ -208,7 +220,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
         </Form.Item>
         <Form.Item layout="horizontal" label="Марка" name={"brand"}>
           <MoblieSelect
-            options={marks}
+            options={marks(country)}
             onFieldChange={() => {
               form.setFieldValue("model", undefined);
               handleFormValuesChange();

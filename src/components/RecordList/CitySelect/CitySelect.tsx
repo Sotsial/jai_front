@@ -58,7 +58,6 @@ export default CitySelect;
 
 export const SortDirectionButton = () => {
   const { sort, sortDirection, setSortDirection } = useStore();
-  console.log(sort);
   return (
     <>
       {sort && (

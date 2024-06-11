@@ -29,7 +29,6 @@ export const fetchSuppliers = async ({
 
 const Order = () => {
   const { country, city } = useStore();
-  console.log(city);
   const { data } = useQuery({
     queryKey: ["suppliers", country, city],
     queryFn: () => fetchSuppliers({ catalog: country, city }),
@@ -40,8 +39,9 @@ const Order = () => {
       <Typography.Title level={4} style={{ marginBottom: 4, marginTop: 4 }}>
         Заказать авто:
       </Typography.Title>
-      {data?.suppliers.map((el) => (
+      {data?.suppliers.map((el, index) => (
         <Card
+          key={index}
           title={
             <Flex justify="space-between" align="center">
               <Typography.Title level={4} style={{ margin: 0 }}>
