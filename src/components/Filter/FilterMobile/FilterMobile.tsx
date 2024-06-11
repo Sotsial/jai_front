@@ -406,17 +406,16 @@ const MoblieSelect = ({
   defaultValue,
   onFieldChange,
 }: {
-  options: { label: string; value: string }[] | { value: string }[];
+  options?: { label: string; value: string }[] | { value: string }[];
   value?: string;
   onChange?: (v: string) => void;
   defaultValue?: string;
   onFieldChange?: () => void;
 }) => {
   // @ts-ignore
-  const opt: { label: string; value: string }[] = options[0]?.label
+  const opt: { label: string; value: string }[] = options?.[0]?.label
     ? options
-    : options.map((el) => ({ value: el.value, label: el.value }));
-
+    : options?.map((el) => ({ value: el.value, label: el.value }));
   return (
     <Picker
       columns={[opt]}
@@ -425,7 +424,7 @@ const MoblieSelect = ({
       cancelText="Закрыть"
       onConfirm={(v) => {
         // @ts-ignore
-        onChange?.(v[0]);
+        onChange?.(v?.[0]);
         onFieldChange?.();
       }}
       defaultValue={defaultValue ? [defaultValue] : undefined}
