@@ -13,6 +13,8 @@ import {
   driveUnitOptions,
   fetchFilter,
   fuelOptions,
+  marks,
+  models,
   transmissionsOptions,
 } from "../Filter";
 import { CloseOutlined } from "@ant-design/icons";
@@ -55,6 +57,14 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
     queryKey: ["list", country, formValueDebouce],
     queryFn: () => fetchFilter(country, formValueDebouce),
   });
+
+  const brand = Form.useWatch("brand", form);
+
+  const modelOptions = brand ? models(brand) : [];
+
+  useEffect(() => {
+    form.setFieldValue("model", undefined);
+  }, [brand]);
 
   const handleFormValuesChange = (
     _: string,
@@ -171,8 +181,13 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
         onFinish={onFinish}
       >
         <Form.Item layout="horizontal" label="Марка" name={"brand"}>
-          <MoblieSelect options={[]} />
+          <MoblieSelect options={marks} />
         </Form.Item>
+        {brand && (
+          <Form.Item layout="horizontal" label="Модель" name={"model"}>
+            <MoblieSelect options={modelOptions} />
+          </Form.Item>
+        )}
         <Form.Item
           layout="horizontal"
           name={"delivery_city"}

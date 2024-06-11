@@ -19,9 +19,9 @@ import { RuleObject } from "antd/es/form";
 import { separator } from "../RecordList/RecordItem/RecordItem";
 import data from "src/mark.json";
 
-const marks = data.map((el) => ({ value: el.mark }));
+export const marks = data.map((el) => ({ value: el.mark }));
 
-const models = (mark: string) =>
+export const models = (mark: string) =>
   (
     data.find((el) => el.mark === mark)?.models as {
       id: string;
@@ -115,6 +115,10 @@ const Filter = () => {
 
   const modelOptions = brand ? models(brand) : [];
 
+  useEffect(() => {
+    form.setFieldValue("model", undefined);
+  }, [brand]);
+
   const { data } = useQuery({
     queryKey: ["list", country, formValueDebouce],
     queryFn: () => fetchFilter(country, formValueDebouce),
@@ -125,10 +129,6 @@ const Filter = () => {
     form.setFieldValue("body_type", undefined);
     form.setFieldValue("fuel_type", undefined);
   }, [country]);
-
-  useEffect(() => {
-    form.setFieldValue("model", undefined);
-  }, [brand]);
 
   const handleFormValuesChange = (
     _: string,
