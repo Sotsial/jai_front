@@ -15,7 +15,7 @@ interface SupplierVM {
 
 export const fetchSuppliers = async ({
   catalog,
-  city,
+  city = "Алматы",
 }: {
   catalog: CountryType;
   city: CityType;
@@ -29,7 +29,7 @@ export const fetchSuppliers = async ({
 
 const Order = () => {
   const { country, city } = useStore();
-
+  console.log(city);
   const { data } = useQuery({
     queryKey: ["suppliers", country, city],
     queryFn: () => fetchSuppliers({ catalog: country, city }),
