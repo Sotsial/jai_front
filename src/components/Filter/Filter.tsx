@@ -23,7 +23,17 @@ import krdata from "src/krmark.json";
 import { ReloadOutlined } from "@ant-design/icons";
 
 export const marks = (country: string) =>
-  (country === "uae" ? uaedata : krdata)?.map((el) => ({ value: el.mark }));
+  (country === "uae" ? uaedata : krdata)
+    ?.map((el) => ({ value: el.mark }))
+    .sort((a, b) => {
+      if (a.value === "Другие") {
+        return 1; // Поместить "Другие" в конец массива
+      }
+      if (b.value === "Другие") {
+        return -1; // Поместить "Другие" в конец массива
+      }
+      return a.value.localeCompare(b.value);
+    });
 
 export const models = (mark: string, country: string) =>
   (
@@ -32,7 +42,17 @@ export const models = (mark: string, country: string) =>
       id: string;
       name: string;
     }[]
-  )?.map((model) => ({ value: model.name }));
+  )
+    ?.map((model) => ({ value: model.name }))
+    .sort((a, b) => {
+      if (a.value === "Другие") {
+        return 1; // Поместить "Другие" в конец массива
+      }
+      if (b.value === "Другие") {
+        return -1; // Поместить "Другие" в конец массива
+      }
+      return a.value.localeCompare(b.value);
+    });
 
 export const transmissionsOptions = (country: CountryType) => {
   if (country === "kr")
