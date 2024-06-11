@@ -245,13 +245,15 @@ const Item = ({
                 </Typography.Title>
                 <ul
                   style={{
-                    listStyleType: "disc",
+                    listStyleType: "circle",
                     fontSize: "1rem",
                     paddingLeft: 24,
                   }}
                 >
                   {Object.keys(standard[el]).map((item) => (
-                    <li>{item}</li>
+                    <li className={standard[el][item] === 1 ? "li_fill" : ""}>
+                      {item}
+                    </li>
                   ))}
                 </ul>
               </Col>
@@ -396,12 +398,14 @@ const Item = ({
                   </Typography.Title>
                   <ul
                     style={{
-                      listStyleType: "disc",
+                      listStyleType: "circle",
                       fontSize: "1rem",
                     }}
                   >
                     {Object.keys(standard[el]).map((item) => (
-                      <li>{item}</li>
+                      <li className={standard[el][item] === 1 ? "li_fill" : ""}>
+                        {item}
+                      </li>
                     ))}
                   </ul>
                 </Col>
@@ -412,7 +416,6 @@ const Item = ({
                   style={{
                     display: "flex",
                     flexWrap: "wrap", // Это позволит элементам переноситься на следующую строку
-                    listStyleType: "disc",
                     fontSize: "1rem",
                   }}
                 >
