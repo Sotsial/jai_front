@@ -8,8 +8,7 @@ import { countryName } from "src/components/Layout/Layout";
 import useStore from "src/store/store";
 
 const CitySelect = ({ total = 0 }: { total?: number }) => {
-  const { city, country, sort, setSort, sortDirection, setSortDirection } =
-    useStore();
+  const { city, country, sort, setSort } = useStore();
 
   if (isMobile)
     return (
@@ -48,21 +47,7 @@ const CitySelect = ({ total = 0 }: { total?: number }) => {
               { value: "priceSort", label: "цене" },
             ]}
           />
-          {sort !== "" && (
-            <Button
-              type="text"
-              onClick={() =>
-                setSortDirection(sortDirection === "asc" ? "desc" : "asc")
-              }
-              icon={
-                sortDirection === "desc" ? (
-                  <SortAscendingOutlined />
-                ) : (
-                  <SortDescendingOutlined />
-                )
-              }
-            />
-          )}
+          <SortDirectionButton />
         </div>
       </Typography.Text>
     </Space>
@@ -70,3 +55,27 @@ const CitySelect = ({ total = 0 }: { total?: number }) => {
 };
 
 export default CitySelect;
+
+export const SortDirectionButton = () => {
+  const { sort, sortDirection, setSortDirection } = useStore();
+  console.log(sort);
+  return (
+    <>
+      {sort && (
+        <Button
+          type="text"
+          onClick={() =>
+            setSortDirection(sortDirection === "asc" ? "desc" : "asc")
+          }
+          icon={
+            sortDirection === "desc" ? (
+              <SortAscendingOutlined />
+            ) : (
+              <SortDescendingOutlined />
+            )
+          }
+        />
+      )}
+    </>
+  );
+};

@@ -2,4 +2,8 @@
   .ant-input-number {
     width: 100% !important;
   }
+
+  .adm-form-item-label {
+    text-wrap: nowrap;
+  }
 }

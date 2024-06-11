@@ -1,7 +1,7 @@
 import { List, Skeleton, Space, Typography } from "antd";
 import RecordItem, { CarVM } from "./RecordItem/RecordItem";
 import { useState } from "react";
-import CitySelect from "./CitySelect/CitySelect";
+import CitySelect, { SortDirectionButton } from "./CitySelect/CitySelect";
 import { isMobile } from "react-device-detect";
 import useStore, {
   CityType,
@@ -78,7 +78,7 @@ const RecordList = () => {
           level={3}
           style={{ paddingInline: 8, marginTop: 4, marginBottom: 0 }}
         >
-          Результаты поиска
+          Результаты поиска <SortDirectionButton />
         </Typography.Title>
       )}
 

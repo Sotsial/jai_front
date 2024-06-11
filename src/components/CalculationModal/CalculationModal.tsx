@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Flex, Space, Typography } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { CountryType } from "src/store/store";
+import useStore, { CountryType } from "src/store/store";
 import "./CalculationModal.css";
 import { separator } from "../RecordList/RecordItem/RecordItem";
 
@@ -43,6 +43,7 @@ export const fetchItem = async ({
 
 const CalculationModal = ({ country }: { country: CountryType }) => {
   const { id } = useParams();
+  const { city } = useStore();
 
   const { data } = useQuery({
     queryKey: ["calculation", country, id],
@@ -71,7 +72,7 @@ const CalculationModal = ({ country }: { country: CountryType }) => {
         <span>$ {separator(data?.calculation?.car_price_with_customs)}</span>
       </Flex>
       <Flex justify="space-between" className="calculation_text">
-        доставка до Алматы
+        доставка до {city}
         <span>-</span>
       </Flex>
       <Flex justify="space-between" className="calculation_text">

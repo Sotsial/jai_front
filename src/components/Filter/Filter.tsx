@@ -9,6 +9,7 @@ import {
   InputNumber,
   Row,
   Select,
+  Tooltip,
   Typography,
 } from "antd";
 import axios from "axios";
@@ -18,6 +19,7 @@ import { useQuery } from "@tanstack/react-query";
 import { RuleObject } from "antd/es/form";
 import { separator } from "../RecordList/RecordItem/RecordItem";
 import data from "src/mark.json";
+import { ReloadOutlined } from "@ant-design/icons";
 
 export const marks = data.map((el) => ({ value: el.mark }));
 
@@ -117,6 +119,7 @@ const Filter = () => {
 
   useEffect(() => {
     form.setFieldValue("model", undefined);
+    handleFormValuesChange();
   }, [brand]);
 
   const { data } = useQuery({
@@ -128,12 +131,11 @@ const Filter = () => {
     form.setFieldValue("transmissions_type", undefined);
     form.setFieldValue("body_type", undefined);
     form.setFieldValue("fuel_type", undefined);
+    handleFormValuesChange();
   }, [country]);
 
-  const handleFormValuesChange = (
-    _: string,
-    allValues: Record<string, any>
-  ) => {
+  const handleFormValuesChange = () => {
+    const allValues = form.getFieldsValue();
     if (allValues.yearFrom) {
       const yearFromDate = allValues.yearFrom;
 
@@ -238,6 +240,7 @@ const Filter = () => {
               <Select
                 placeholder="Не выбрано"
                 options={[{ value: "Астана" }, { value: "Алматы" }]}
+                defaultValue={"Алматы"}
               />
             </Form.Item>
           </Col>
@@ -417,10 +420,17 @@ const Filter = () => {
             </Row>
           </Col>
           <Col span={24} className="filter_button">
-            <Flex align="center" justify="center">
+            <Flex align="center" gap={8} justify="center">
               <Button htmlType="submit" type="primary" size="large">
-                Показать {data?.items_count} объявлений
+                Показать {data?.items_count ?? " "} объявлений
               </Button>
+              <Tooltip title="Сбросить фильтр">
+                <Button
+                  onClick={() => form.resetFields()}
+                  size="large"
+                  icon={<ReloadOutlined />}
+                />
+              </Tooltip>
             </Flex>
           </Col>
         </Row>

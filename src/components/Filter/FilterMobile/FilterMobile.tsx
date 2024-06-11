@@ -5,6 +5,7 @@ import {
   Flex,
   InputNumber,
   Row,
+  Space,
   Typography,
 } from "antd";
 import { Form, Picker } from "antd-mobile";
@@ -50,7 +51,9 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
   const [formValue, setFormValue] = useState<FilterParams>();
   const [formValueDebouce] = useDebounce(formValue, 500);
 
-  const { country, setFilter, setCity } = useStore();
+  const { country, setFilter, setCity, filter, setSort } = useStore();
+  const [firstCountry] = useState(country);
+
   const [form] = Form.useForm();
 
   const { data } = useQuery({
@@ -62,14 +65,8 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
 
   const modelOptions = brand ? models(brand) : [];
 
-  useEffect(() => {
-    form.setFieldValue("model", undefined);
-  }, [brand]);
-
-  const handleFormValuesChange = (
-    _: string,
-    allValues: Record<string, any>
-  ) => {
+  const handleFormValuesChange = () => {
+    const allValues = form.getFieldsValue();
     if (allValues.yearFrom) {
       const yearFromDate = allValues.yearFrom;
 
@@ -107,13 +104,21 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
     }
     setCity(allValues.delivery_city);
     setFilter(allValues);
+    setSort(allValues.sort);
     onClose();
   };
 
   useEffect(() => {
-    form.setFieldValue("transmissions_type", undefined);
-    form.setFieldValue("body_type", undefined);
-    form.setFieldValue("fuel_type", undefined);
+    if (filter) form.setFieldsValue(filter);
+  }, [filter]);
+
+  useEffect(() => {
+    if (firstCountry !== country) {
+      form.setFieldValue("transmissions_type", undefined);
+      form.setFieldValue("body_type", undefined);
+      form.setFieldValue("fuel_type", undefined);
+    }
+    handleFormValuesChange();
   }, [country]);
 
   const validateYearToMore = (_: RuleObject, value: any) => {
@@ -172,16 +177,43 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
         layout="vertical"
         style={{ width: "100%" }}
         footer={
-          <Button block htmlType="submit" type="primary" size="large">
-            Показать {data?.items_count} объявлений
-          </Button>
+          <Space direction="vertical" style={{ width: "100%" }}>
+            <Button block htmlType="submit" type="primary" size="large">
+              Показать {data?.items_count ?? " "} объявлений
+            </Button>
+            <Button
+              block
+              size="large"
+              onClick={() => {
+                form.resetFields();
+                handleFormValuesChange();
+              }}
+            >
+              Сбросить фильтр
+            </Button>
+          </Space>
         }
         className="filter_mobile"
         onValuesChange={handleFormValuesChange}
         onFinish={onFinish}
       >
+        <Form.Item layout="horizontal" label="Сортировать по" name={"sort"}>
+          <MoblieSelect
+            options={[
+              { value: "", label: "По умолчанию" },
+              { value: "yearSort", label: "году выпуска" },
+              { value: "priceSort", label: "цене" },
+            ]}
+          />
+        </Form.Item>
         <Form.Item layout="horizontal" label="Марка" name={"brand"}>
-          <MoblieSelect options={marks} />
+          <MoblieSelect
+            options={marks}
+            onFieldChange={() => {
+              form.setFieldValue("model", undefined);
+              handleFormValuesChange();
+            }}
+          />
         </Form.Item>
         {brand && (
           <Form.Item layout="horizontal" label="Модель" name={"model"}>
@@ -192,6 +224,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
           layout="horizontal"
           name={"delivery_city"}
           label="Доставка до"
+          initialValue={"Алматы"}
         >
           <MoblieSelect options={cities} />
         </Form.Item>
@@ -358,12 +391,20 @@ const MoblieSelect = ({
   options,
   value,
   onChange,
+  defaultValue,
+  onFieldChange,
 }: {
   options: { label: string; value: string }[] | { value: string }[];
   value?: string;
   onChange?: (v: string) => void;
+  defaultValue?: string;
+  onFieldChange?: () => void;
 }) => {
-  const opt = options.map((el) => ({ value: el.value, label: el.value }));
+  // @ts-ignore
+  const opt: { label: string; value: string }[] = options[0]?.label
+    ? options
+    : options.map((el) => ({ value: el.value, label: el.value }));
+
   return (
     <Picker
       columns={[opt]}
@@ -373,7 +414,9 @@ const MoblieSelect = ({
       onConfirm={(v) => {
         // @ts-ignore
         onChange?.(v[0]);
+        onFieldChange?.();
       }}
+      defaultValue={defaultValue ? [defaultValue] : undefined}
     >
       {(value, actions) => {
         return (

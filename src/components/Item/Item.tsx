@@ -213,7 +213,7 @@ const Item = ({
           </Col>
           <Col span={12} style={{ textAlign: "right" }}>
             <Typography.Text style={{ fontSize: "1.1rem", fontWeight: 600 }}>
-              До Алматы
+              До {city}
             </Typography.Text>
           </Col>
         </Row>
