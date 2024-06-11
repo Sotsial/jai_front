@@ -17,6 +17,17 @@ import { useDebounce } from "use-debounce";
 import { useQuery } from "@tanstack/react-query";
 import { RuleObject } from "antd/es/form";
 import { separator } from "../RecordList/RecordItem/RecordItem";
+import data from "src/mark.json";
+
+const marks = data.map((el) => ({ value: el.mark }));
+
+const models = (mark: string) =>
+  (
+    data.find((el) => el.mark === mark)?.models as {
+      id: string;
+      name: string;
+    }[]
+  ).map((model) => ({ value: model.name }));
 
 export const transmissionsOptions = (country: CountryType) => {
   if (country === "kr")
@@ -100,6 +111,10 @@ const Filter = () => {
   const [formValue, setFormValue] = useState<FilterParams>();
   const [formValueDebouce] = useDebounce(formValue, 500);
 
+  const brand = Form.useWatch("brand", form);
+
+  const modelOptions = brand ? models(brand) : [];
+
   const { data } = useQuery({
     queryKey: ["list", country, formValueDebouce],
     queryFn: () => fetchFilter(country, formValueDebouce),
@@ -110,6 +125,10 @@ const Filter = () => {
     form.setFieldValue("body_type", undefined);
     form.setFieldValue("fuel_type", undefined);
   }, [country]);
+
+  useEffect(() => {
+    form.setFieldValue("model", undefined);
+  }, [brand]);
 
   const handleFormValuesChange = (
     _: string,
@@ -200,7 +219,20 @@ const Filter = () => {
               Поиск
             </Typography.Title>
             <Form.Item label="Марка" name={"brand"}>
-              <Select placeholder="Не выбрано" />
+              <Select
+                placeholder="Не выбрано"
+                options={marks}
+                showSearch
+                allowClear
+              />
+            </Form.Item>
+            <Form.Item label="Модель" name={"model"}>
+              <Select
+                placeholder={brand ? "Не выбрано" : "Выберите марку"}
+                options={modelOptions}
+                showSearch
+                allowClear
+              />
             </Form.Item>
             <Form.Item name={"delivery_city"} label="Доставка до города">
               <Select

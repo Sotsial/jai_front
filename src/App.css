@@ -66,4 +66,5 @@ li > div {
 
 .ant-breadcrumb-link {
   cursor: pointer;
+  text-transform: capitalize;
 }
