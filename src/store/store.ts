@@ -60,7 +60,8 @@ const useStore = create<StoreState>(
       setSortDirection: (sortDirection) => set({ sortDirection }),
     }),
     {
-      name: "app-store", // имя для хранения в localStorage
+      name: "jai", // имя для хранения в localStorage
+      getStorage: () => sessionStorage,
     }
   )
 );

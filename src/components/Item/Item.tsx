@@ -234,7 +234,7 @@ const Item = ({
         <Row style={{ paddingInline: 12 }}>
           {standard ? (
             Object.keys(standard).map((el) => (
-              <Col span={24}>
+              <Col span={24} key={el}>
                 <Typography.Title
                   style={{ marginTop: 4, paddingInline: 6 }}
                   level={5}
@@ -249,7 +249,10 @@ const Item = ({
                   }}
                 >
                   {Object.keys(standard[el]).map((item) => (
-                    <li className={standard[el][item] === 1 ? "li_fill" : ""}>
+                    <li
+                      key={item}
+                      className={standard[el][item] === 1 ? "li_fill" : ""}
+                    >
                       {item}
                     </li>
                   ))}
@@ -266,7 +269,7 @@ const Item = ({
                 }}
               >
                 {carFeatures?.map((el) => (
-                  <li>{el}</li>
+                  <li key={el}>{el}</li>
                 ))}
               </ul>
             </Col>
@@ -388,7 +391,7 @@ const Item = ({
           <Row>
             {standard ? (
               Object.keys(standard).map((el) => (
-                <Col span={12}>
+                <Col span={12} key={el}>
                   <Typography.Title style={{ marginTop: 6 }} level={5}>
                     {el}
                   </Typography.Title>
@@ -399,7 +402,10 @@ const Item = ({
                     }}
                   >
                     {Object.keys(standard[el]).map((item) => (
-                      <li className={standard[el][item] === 1 ? "li_fill" : ""}>
+                      <li
+                        key={item}
+                        className={standard[el][item] === 1 ? "li_fill" : ""}
+                      >
                         {item}
                       </li>
                     ))}
