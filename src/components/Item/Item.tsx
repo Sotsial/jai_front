@@ -6,7 +6,6 @@ import {
   Divider,
   Flex,
   Image,
-  Popover,
   Row,
   Space,
   Typography,
@@ -18,7 +17,6 @@ import { isMobile } from "react-device-detect";
 import { CarVM, separator } from "../RecordList/RecordItem/RecordItem";
 import useStore from "src/store/store";
 import { CarouselRef } from "antd/es/carousel";
-import CalculationModal from "../CalculationModal/CalculationModal";
 import { LeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +34,7 @@ const Item = ({
   brand,
   standard,
 }: CarVM) => {
-  const { city, country } = useStore();
+  const { city } = useStore();
   const navigate = useNavigate();
 
   const carFeatures = technical_features?.split(", ");
@@ -180,9 +178,6 @@ const Item = ({
             >
               {separator(total_price_kzt)} Т
             </Typography.Title>
-            <Popover content={<CalculationModal country={country} />}>
-              <Button type="primary">Полный расчет</Button>
-            </Popover>
           </Flex>
         </Space>
         <Divider style={{ marginTop: 0, marginBottom: 0 }} />
@@ -287,9 +282,6 @@ const Item = ({
           <Typography.Title level={3} style={{ marginTop: 0, marginBottom: 0 }}>
             {separator(total_price_kzt)} Т
           </Typography.Title>
-          <Popover content={<CalculationModal country={country} />}>
-            <Button type="primary">Полный расчет</Button>
-          </Popover>
         </Flex>
         <Row gutter={[12, 12]} align={"middle"} style={{ paddingRight: 8 }}>
           <Col span={12}>

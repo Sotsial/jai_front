@@ -41,7 +41,21 @@ export const fetchItem = async ({
   return data;
 };
 
-const CalculationModal = ({ country }: { country: CountryType }) => {
+const CalculationModal = ({
+  country,
+  price,
+}: {
+  country: CountryType;
+  price: {
+    delivery_price: number;
+    delivery_price_kzt: number;
+    total_price: number;
+    total_price_kzt: number;
+    service_price: number;
+    service_price_kzt: number;
+  };
+}) => {
+  console.log(price);
   const { id } = useParams();
   const { city } = useStore();
 
@@ -55,13 +69,20 @@ const CalculationModal = ({ country }: { country: CountryType }) => {
       <Title style={{ margin: 0, color: "#5e9de8" }} level={4}>
         <Flex justify="space-between">
           Общая сумма:
-          <span>{separator(data?.calculation?.total_price_kzt)} KZT</span>
+          <span>
+            {separator(
+              data?.calculation?.total_price_kzt ?? 0 + price.total_price_kzt
+            )}{" "}
+            KZT
+          </span>
         </Flex>
       </Title>
 
       <Flex justify="space-between" className="calculation_text">
         в долларах
-        <span>$ {separator(data?.calculation?.total_price)}</span>
+        <span>
+          $ {separator(data?.calculation?.total_price ?? 0 + price.total_price)}
+        </span>
       </Flex>
 
       <Text type="secondary">из них:</Text>
@@ -73,7 +94,7 @@ const CalculationModal = ({ country }: { country: CountryType }) => {
       </Flex>
       <Flex justify="space-between" className="calculation_text">
         доставка до {city}
-        <span>-</span>
+        <span>$ {separator(price.delivery_price)}</span>
       </Flex>
       <Flex justify="space-between" className="calculation_text">
         утиль сбор
@@ -95,7 +116,7 @@ const CalculationModal = ({ country }: { country: CountryType }) => {
       </Flex>
       <Flex justify="space-between" className="calculation_text">
         услуги компаний №1
-        <span>$ 500</span>
+        <span>$ {separator(price.service_price)}</span>
       </Flex>
     </Space>
   );

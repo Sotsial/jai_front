@@ -12,6 +12,7 @@ import { Form, Picker } from "antd-mobile";
 import {
   bodyOptions,
   driveUnitOptions,
+  fetchCities,
   fetchFilter,
   fuelOptions,
   marks,
@@ -42,11 +43,6 @@ export const FilterButtonMobile = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
-const cities = [
-  { label: "Астана", value: "Астана" },
-  { label: "Алматы", value: "Алматы" },
-];
-
 export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
   const [formValue, setFormValue] = useState<FilterParams>();
   const [formValueDebouce] = useDebounce(formValue, 500);
@@ -55,6 +51,13 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
   const [firstCountry] = useState(country);
 
   const [form] = Form.useForm();
+
+  const { data: cities } = useQuery({
+    queryKey: ["list", country],
+    queryFn: () => fetchCities(country),
+  });
+
+  const citiesOptions = cities?.map((el) => ({ value: el.delivery_city }));
 
   const { data } = useQuery({
     queryKey: ["list", country, formValueDebouce],
@@ -238,7 +241,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
           label="Доставка до"
           initialValue={"Алматы"}
         >
-          <MoblieSelect options={cities} />
+          <MoblieSelect options={citiesOptions} />
         </Form.Item>
 
         <Row gutter={12} style={{ width: "100%" }}>

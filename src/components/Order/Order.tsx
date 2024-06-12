@@ -1,9 +1,10 @@
 import { InstagramOutlined } from "@ant-design/icons";
 import { useQuery } from "@tanstack/react-query";
-import { Button, Card, Flex, Space, Typography } from "antd";
+import { Button, Card, Flex, Popover, Space, Typography } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import useStore, { CityType, CountryType } from "src/store/store";
+import CalculationModal from "../CalculationModal/CalculationModal";
 
 interface SupplierVM {
   delivery_city: string;
@@ -11,6 +12,12 @@ interface SupplierVM {
   description: string;
   phone: string;
   links: { instagram: string; website: string };
+  service_price: number;
+  service_price_kzt: number;
+  delivery_price: number;
+  delivery_price_kzt: number;
+  total_price: number;
+  total_price_kzt: number;
 }
 
 export const fetchSuppliers = async ({
@@ -39,6 +46,7 @@ const Order = () => {
       <Typography.Title level={4} style={{ marginBottom: 4, marginTop: 4 }}>
         Заказать авто:
       </Typography.Title>
+
       {data?.suppliers.map((el, index) => (
         <Card
           key={index}
@@ -54,6 +62,23 @@ const Order = () => {
                   />
                 )}
               </Space>
+              <Popover
+                content={
+                  <CalculationModal
+                    country={country}
+                    price={{
+                      total_price: el?.total_price,
+                      total_price_kzt: el?.total_price_kzt,
+                      delivery_price: el.delivery_price,
+                      delivery_price_kzt: el.delivery_price_kzt,
+                      service_price: el?.service_price,
+                      service_price_kzt: el.service_price_kzt,
+                    }}
+                  />
+                }
+              >
+                <Button>Полный расчет</Button>
+              </Popover>
             </Flex>
           }
           bordered={false}

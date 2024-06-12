@@ -129,12 +129,28 @@ export const fetchFilter = async (
   return data;
 };
 
+export const fetchCities = async (
+  country: CountryType
+): Promise<{ delivery_city: string }[]> => {
+  const { data } = await axios.get(
+    "https://jaicar.kz/api/v1/catalog/turnkey/" + country + "/cities"
+  );
+  return data.cities;
+};
+
 const Filter = () => {
   const [form] = Form.useForm();
   const { country, setFilter, setCity } = useStore();
 
+  const { data: cities } = useQuery({
+    queryKey: ["list", country],
+    queryFn: () => fetchCities(country),
+  });
+
   const [formValue, setFormValue] = useState<FilterParams>();
   const [formValueDebouce] = useDebounce(formValue, 500);
+
+  const citiesOptions = cities?.map((el) => ({ value: el.delivery_city }));
 
   const brand = Form.useWatch("brand", form);
 
@@ -206,7 +222,7 @@ const Filter = () => {
 
       allValues.yearTo = yearFromAsString;
     }
-    setCity(allValues.delivery_city);
+    setCity(allValues.delivery_city ?? "Алматы");
     setFilter(allValues);
   };
 
@@ -274,7 +290,7 @@ const Filter = () => {
             <Form.Item name={"delivery_city"} label="Доставка до города">
               <Select
                 placeholder="Не выбрано"
-                options={[{ value: "Астана" }, { value: "Алматы" }]}
+                options={citiesOptions}
                 defaultValue={"Алматы"}
               />
             </Form.Item>
