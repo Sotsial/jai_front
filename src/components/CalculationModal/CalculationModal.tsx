@@ -111,10 +111,6 @@ const CalculationModal = ({
         </span>
       </Flex>
       <Flex justify="space-between" className="calculation_text">
-        платежи за номера и техпаспорт
-        <span>$ {separator(data?.calculation?.technical_passport_price)}</span>
-      </Flex>
-      <Flex justify="space-between" className="calculation_text">
         услуги компаний №1
         <span>$ {separator(price.service_price)}</span>
       </Flex>
