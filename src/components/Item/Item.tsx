@@ -37,7 +37,8 @@ const Item = ({
   const { city } = useParams();
   const navigate = useNavigate();
 
-  const carFeatures = technical_features?.split(", ");
+  const carFeatures =
+    technical_features !== "" ? technical_features?.split(", ") : [];
 
   useEffect(() => {
     if (gallery?.length > 1) setCurrent(0);
