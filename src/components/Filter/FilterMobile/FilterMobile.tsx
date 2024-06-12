@@ -57,7 +57,8 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
     queryFn: () => fetchCities(country),
   });
 
-  const citiesOptions = cities?.map((el) => ({ value: el.delivery_city }));
+  const citiesOptions =
+    cities?.map((el) => ({ value: el.delivery_city })) ?? [];
 
   const { data } = useQuery({
     queryKey: ["list", country, formValueDebouce],
