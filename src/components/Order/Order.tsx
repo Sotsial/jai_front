@@ -42,7 +42,7 @@ const Order = () => {
   });
 
   return (
-    <Space direction="vertical" style={{ paddingBottom: 12 }}>
+    <Space direction="vertical" style={{ paddingBottom: 12, width: "100%" }}>
       <Typography.Title level={4} style={{ marginBottom: 4, marginTop: 4 }}>
         Заказать авто:
       </Typography.Title>

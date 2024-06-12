@@ -71,7 +71,7 @@ const CalculationModal = ({
           Общая сумма:
           <span>
             {separator(
-              data?.calculation?.total_price_kzt ?? 0 + price.total_price_kzt
+              (data?.calculation?.total_price_kzt ?? 0) + price.total_price_kzt
             )}{" "}
             KZT
           </span>
@@ -81,7 +81,8 @@ const CalculationModal = ({
       <Flex justify="space-between" className="calculation_text">
         в долларах
         <span>
-          $ {separator(data?.calculation?.total_price ?? 0 + price.total_price)}
+          ${" "}
+          {separator((data?.calculation?.total_price ?? 0) + price.total_price)}
         </span>
       </Flex>
 
