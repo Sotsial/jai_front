@@ -19,7 +19,7 @@ import {
   models,
   transmissionsOptions,
 } from "../Filter";
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, ReloadOutlined } from "@ant-design/icons";
 import useStore, { FilterParams } from "src/store/store";
 import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
@@ -29,8 +29,9 @@ import { separator } from "src/components/RecordList/RecordItem/RecordItem";
 import { RuleObject } from "antd/es/form";
 
 export const FilterButtonMobile = ({ onClick }: { onClick: () => void }) => {
+  const { setFilter } = useStore();
   return (
-    <div style={{ paddingInline: 8 }}>
+    <Flex style={{ paddingInline: 8 }} gap={8}>
       <Button
         block
         size="large"
@@ -39,7 +40,12 @@ export const FilterButtonMobile = ({ onClick }: { onClick: () => void }) => {
       >
         Фильтр
       </Button>
-    </div>
+      <Button
+        onClick={() => setFilter({})}
+        size="large"
+        icon={<ReloadOutlined />}
+      />
+    </Flex>
   );
 };
 

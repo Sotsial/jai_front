@@ -36,6 +36,8 @@ export const fetchSuppliers = async ({
 const Order = ({ data }: { data?: { suppliers: SupplierVM[] } }) => {
   const { country } = useStore();
 
+  if (!data || !data.suppliers) return;
+
   return (
     <Space direction="vertical" style={{ paddingBottom: 12, width: "100%" }}>
       <Typography.Title level={4} style={{ marginBottom: 4, marginTop: 4 }}>

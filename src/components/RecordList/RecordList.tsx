@@ -13,6 +13,7 @@ import useStore, {
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCities } from "../Filter/Filter";
+import Advertising from "../Advertising/Advertising";
 
 interface CatalogVM {
   catalog: {
@@ -102,13 +103,24 @@ const RecordList = () => {
         dataSource={
           isLoading ? ([1, 2, 3] as unknown as CarVM[]) : data?.catalog.data
         }
-        renderItem={(item) => {
+        renderItem={(item, index) => {
           return (
-            <List.Item key={item.id}>
-              <Skeleton loading={isLoading} active avatar={{ shape: "square" }}>
-                <RecordItem {...item} city={city} />
-              </Skeleton>
-            </List.Item>
+            <>
+              {index !== 0 && index % 4 === 0 && (
+                <div style={{ minHeight: 200 }}>
+                  <Advertising />
+                </div>
+              )}
+              <List.Item key={item.id}>
+                <Skeleton
+                  loading={isLoading}
+                  active
+                  avatar={{ shape: "square" }}
+                >
+                  <RecordItem {...item} city={city} />
+                </Skeleton>
+              </List.Item>
+            </>
           );
         }}
         pagination={{
