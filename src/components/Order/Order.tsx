@@ -1,12 +1,11 @@
 import { InstagramOutlined } from "@ant-design/icons";
-import { useQuery } from "@tanstack/react-query";
 import { Button, Card, Flex, Popover, Space, Typography } from "antd";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import useStore, { CityType, CountryType } from "src/store/store";
 import CalculationModal from "../CalculationModal/CalculationModal";
 
-interface SupplierVM {
+export interface SupplierVM {
   delivery_city: string;
   name: string;
   description: string;
@@ -34,12 +33,8 @@ export const fetchSuppliers = async ({
   return data;
 };
 
-const Order = () => {
-  const { country, city } = useStore();
-  const { data } = useQuery({
-    queryKey: ["suppliers", country, city],
-    queryFn: () => fetchSuppliers({ catalog: country, city }),
-  });
+const Order = ({ data }: { data?: { suppliers: SupplierVM[] } }) => {
+  const { country } = useStore();
 
   return (
     <Space direction="vertical" style={{ paddingBottom: 12, width: "100%" }}>
@@ -97,11 +92,11 @@ const Order = () => {
 export default Order;
 
 const WhatsAppLinkButton = ({ phoneNumber }: { phoneNumber: string }) => {
-  const { id, country } = useParams();
+  const { id, country, city } = useParams();
 
   const createWhatsAppLink = (phoneNumber: string) => {
     const cleanedNumber = phoneNumber.replace(/[\s()\-]/g, "");
-    return `https://wa.me/${cleanedNumber}?text=Здравствуйте,%20интересует%20ваше%20объявление%20https://jai-front.vercel.app/item/${country}/${id}`;
+    return `https://wa.me/${cleanedNumber}?text=Здравствуйте,%20интересует%20ваше%20объявление%20https://jai-front.vercel.app/item/${country}/${city}/${id}`;
   };
 
   const link = createWhatsAppLink(phoneNumber);

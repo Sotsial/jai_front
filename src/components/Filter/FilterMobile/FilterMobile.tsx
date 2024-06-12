@@ -122,6 +122,14 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
       form.setFieldValue("body_type", undefined);
       form.setFieldValue("fuel_type", undefined);
     }
+
+    if (
+      !citiesOptions?.some(
+        (el) => el.value === form.getFieldValue("delivery_city")
+      )
+    ) {
+      form.setFieldValue("delivery_city", "Алматы");
+    }
     handleFormValuesChange();
   }, [country]);
 
@@ -220,6 +228,8 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
               { value: "yearSort", label: "году выпуска" },
               { value: "priceSort", label: "цене" },
             ]}
+            clear={false}
+            sort
           />
         </Form.Item>
         <Form.Item layout="horizontal" label="Марка" name={"brand"}>
@@ -242,7 +252,7 @@ export const FilterMobile = ({ onClose }: { onClose: () => void }) => {
           label="Доставка до"
           initialValue={"Алматы"}
         >
-          <MoblieSelect options={citiesOptions} />
+          <MoblieSelect options={citiesOptions} clear={false} />
         </Form.Item>
 
         <Row gutter={12} style={{ width: "100%" }}>
@@ -409,20 +419,26 @@ const MoblieSelect = ({
   onChange,
   defaultValue,
   onFieldChange,
+  clear = true,
+  sort,
 }: {
   options?: { label: string; value: string }[] | { value: string }[];
   value?: string;
   onChange?: (v: string) => void;
   defaultValue?: string;
   onFieldChange?: () => void;
+  clear?: boolean;
+  sort?: boolean;
 }) => {
   // @ts-ignore
   const opt: { label: string; value: string }[] = options?.[0]?.label
     ? options
     : options?.map((el) => ({ value: el.value, label: el.value }));
+
+  const columns = clear ? [{ label: "Не выбрано", value: "" }, ...opt] : opt;
   return (
     <Picker
-      columns={[opt]}
+      columns={[columns]}
       value={value ? [value] : []}
       confirmText="Выбрать"
       cancelText="Закрыть"
@@ -436,7 +452,11 @@ const MoblieSelect = ({
       {(value, actions) => {
         return (
           <Button style={{ float: "right" }} type="link" onClick={actions.open}>
-            {value[0]?.label ?? "Выбрать"}
+            {value[0]?.label
+              ? value[0]?.label
+              : sort
+              ? "По умолчанию"
+              : "Выбрать"}
           </Button>
         );
       }}

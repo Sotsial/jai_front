@@ -5,7 +5,6 @@ import {
   Divider,
   Flex,
   Row,
-  Select,
   Skeleton,
   Typography,
 } from "antd";
@@ -15,9 +14,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import Advertising from "src/components/Advertising/Advertising";
 import Item from "src/components/Item/Item";
 import { countryName } from "src/components/Layout/Layout";
-import Order from "src/components/Order/Order";
+import Order, { fetchSuppliers } from "src/components/Order/Order";
 import { CarVM } from "src/components/RecordList/RecordItem/RecordItem";
-import { CountryType } from "src/store/store";
+import { CityType, CountryType } from "src/store/store";
 import logo from "src/assets/logo-white.png";
 
 interface FetchParams {
@@ -36,7 +35,7 @@ export const fetchItem = async ({
 };
 
 const ItemPage = () => {
-  const { country, id } = useParams();
+  const { country, id, city } = useParams();
   const navigate = useNavigate();
 
   const { data, isLoading } = useQuery({
@@ -44,7 +43,16 @@ const ItemPage = () => {
     queryFn: () => fetchItem({ country: country as CountryType, id: id! }),
   });
 
-  if (isLoading && !isMobile)
+  const { data: orders, isLoading: isLoadingOrders } = useQuery({
+    queryKey: ["suppliers", country, city],
+    queryFn: () =>
+      fetchSuppliers({
+        catalog: country as CountryType,
+        city: city as CityType,
+      }),
+  });
+
+  if ((isLoading || isLoadingOrders) && !isMobile)
     return (
       <Col span={24}>
         <Skeleton />
@@ -86,7 +94,7 @@ const ItemPage = () => {
             onClick={() => navigate("/")}
             style={{ maxHeight: 44 }}
           />
-          <Select
+          {/* <Select
             className="lang_select"
             defaultValue="ru"
             variant="borderless"
@@ -95,7 +103,7 @@ const ItemPage = () => {
               { value: "ru", label: "RU" },
               { value: "kz", label: "KAZ" },
             ]}
-          />
+          /> */}
         </Flex>
 
         {isLoading ? (
@@ -110,10 +118,12 @@ const ItemPage = () => {
             </div>
           </Col>
         ) : (
-          <Col span={24}>{data && <Item {...data.catalog_item} />}</Col>
+          <Col span={24}>
+            {data && <Item orders={orders!} {...data.catalog_item} />}
+          </Col>
         )}
         <Col span={24} style={{ paddingInline: 18 }}>
-          <Order />
+          <Order data={orders!} />
         </Col>
       </>
     );
@@ -154,7 +164,9 @@ const ItemPage = () => {
         {data?.catalog_item?.brand} | {data?.catalog_item?.model}
       </Typography.Title>
       <Divider style={{ margin: "8px 0" }} />
-      <Col span={24}>{data && <Item {...data.catalog_item} />}</Col>
+      <Col span={24}>
+        {data && <Item orders={orders!} {...data.catalog_item} />}
+      </Col>
     </>
   );
 };

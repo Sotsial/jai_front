@@ -55,7 +55,6 @@ const CalculationModal = ({
     service_price_kzt: number;
   };
 }) => {
-  console.log(price);
   const { id } = useParams();
   const { city } = useStore();
 

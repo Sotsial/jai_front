@@ -12,13 +12,12 @@ import {
 } from "antd";
 import "./Item.css";
 import { Fragment, useEffect, useRef, useState } from "react";
-import Order from "../Order/Order";
+import Order, { SupplierVM } from "../Order/Order";
 import { isMobile } from "react-device-detect";
 import { CarVM, separator } from "../RecordList/RecordItem/RecordItem";
-import useStore from "src/store/store";
 import { CarouselRef } from "antd/es/carousel";
 import { LeftOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const Item = ({
   model,
@@ -33,8 +32,9 @@ const Item = ({
   technical_features,
   brand,
   standard,
-}: CarVM) => {
-  const { city } = useStore();
+  orders,
+}: CarVM & { orders: { suppliers: SupplierVM[] } }) => {
+  const { city } = useParams();
   const navigate = useNavigate();
 
   const carFeatures = technical_features?.split(", ");
@@ -176,7 +176,10 @@ const Item = ({
               level={4}
               style={{ marginTop: 0, marginBottom: 0 }}
             >
-              {separator(total_price_kzt)} Т
+              {separator(
+                total_price_kzt + orders?.suppliers[0].total_price_kzt
+              )}{" "}
+              Т
             </Typography.Title>
           </Flex>
         </Space>
@@ -200,7 +203,7 @@ const Item = ({
                 borderRadius: 6,
               }}
             >
-              ${separator(total_price)}
+              ${separator(total_price + orders?.suppliers[0].total_price)}
             </Typography.Text>
           </Col>
           <Col span={12}>
@@ -280,7 +283,8 @@ const Item = ({
           style={{ marginBottom: 24 }}
         >
           <Typography.Title level={3} style={{ marginTop: 0, marginBottom: 0 }}>
-            {separator(total_price_kzt)} Т
+            {separator(total_price_kzt + orders?.suppliers[0].total_price_kzt)}{" "}
+            Т
           </Typography.Title>
         </Flex>
         <Row gutter={[12, 12]} align={"middle"} style={{ paddingRight: 8 }}>
@@ -298,7 +302,7 @@ const Item = ({
                 borderRadius: 6,
               }}
             >
-              ${separator(total_price)}
+              ${separator(total_price + orders?.suppliers[0].total_price)}
             </Typography.Text>
           </Col>
           <Col span={12}>
@@ -323,7 +327,7 @@ const Item = ({
             </Fragment>
           ))}
         </Row>
-        <Order />
+        <Order data={orders} />
       </Col>
       <Col span={16} className="item_right">
         <Space direction="vertical" style={{ width: "100%" }}>

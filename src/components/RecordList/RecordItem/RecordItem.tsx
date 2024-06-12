@@ -52,7 +52,7 @@ const RecordItem = ({
       <Card styles={{ body: { padding: 8, paddingInline: 10 } }}>
         <Row
           className="record_item"
-          onClick={() => navigate(`item/${country}/${id}`)}
+          onClick={() => navigate(`item/${country}/${city}/${id}`)}
           gutter={[12, 12]}
         >
           <Col span={12}>
@@ -107,7 +107,7 @@ const RecordItem = ({
     <Card styles={{ body: { padding: 0 } }} style={{ border: "none" }}>
       <Row
         className="record_item"
-        onClick={() => navigate(`item/${country}/${id}`)}
+        onClick={() => navigate(`item/${country}/${city}/${id}`)}
         gutter={24}
       >
         <Col span={6}>

@@ -1,6 +1,6 @@
 import { List, Skeleton, Space, Typography } from "antd";
 import RecordItem, { CarVM } from "./RecordItem/RecordItem";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CitySelect, { SortDirectionButton } from "./CitySelect/CitySelect";
 import { isMobile } from "react-device-detect";
 import useStore, {
@@ -12,6 +12,7 @@ import useStore, {
 } from "src/store/store";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { fetchCities } from "../Filter/Filter";
 
 interface CatalogVM {
   catalog: {
@@ -59,12 +60,25 @@ export const fetchList = async ({
 
 const RecordList = () => {
   const [page, setPage] = useState<number>(1); // Добавлено состояние для текущей страницы
-  const { country, city, filter, sort, sortDirection } = useStore();
+  const { country, city, filter, sort, sortDirection, setCity } = useStore();
   const { data, isLoading } = useQuery({
     queryKey: ["list", country, city, page, filter, sort, sortDirection],
     queryFn: () =>
       fetchList({ country, city, page, filter, sort, sortDirection }),
   });
+
+  const { data: cities, isLoading: isLoadingCities } = useQuery({
+    queryKey: ["list", country],
+    queryFn: () => fetchCities(country),
+  });
+
+  useEffect(() => {
+    if (!isLoadingCities && cities) {
+      if (!cities?.some((el) => el.delivery_city === city)) {
+        setCity("Алматы");
+      }
+    }
+  }, [isLoadingCities, cities]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);

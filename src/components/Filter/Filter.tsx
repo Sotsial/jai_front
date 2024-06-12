@@ -170,6 +170,14 @@ const Filter = () => {
     form.setFieldValue("transmissions_type", undefined);
     form.setFieldValue("body_type", undefined);
     form.setFieldValue("fuel_type", undefined);
+    if (
+      !citiesOptions?.some(
+        (el) => el.value === form.getFieldValue("delivery_city")
+      )
+    ) {
+      form.setFieldValue("delivery_city", "Алматы");
+      onFinish(form.getFieldsValue());
+    }
     handleFormValuesChange();
   }, [country]);
 
