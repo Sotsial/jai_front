@@ -98,7 +98,7 @@ const WhatsAppLinkButton = ({ phoneNumber }: { phoneNumber: string }) => {
 
   const createWhatsAppLink = (phoneNumber: string) => {
     const cleanedNumber = phoneNumber.replace(/[\s()\-]/g, "");
-    return `https://wa.me/${cleanedNumber}?text=Здравствуйте,%20интересует%20ваше%20объявление%20https://jai-front.vercel.app/item/${country}/${city}/${id}`;
+    return `https://wa.me/${cleanedNumber}?text=Здравствуйте,%20интересует%20ваше%20объявление%20https://jaiauto.kz/item/${country}/${city}/${id}`;
   };
 
   const link = createWhatsAppLink(phoneNumber);
